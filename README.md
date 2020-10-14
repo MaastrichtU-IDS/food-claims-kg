@@ -1,4 +1,7 @@
-A RDF knowledge graph for food health claims accessible at https://graphdb.dumontierlab.com/repositories/FoodHealthClaimsKG
+A RDF knowledge graph for food health claims.
+
+* SPARQL endpoint accessible at https://graphdb.dumontierlab.com/repositories/FoodHealthClaimsKG
+* OpenAPI at http://grlc.io/api-git/MaastrichtU-IDS/food-claims-kg
 
 ## Question answering
 
@@ -30,7 +33,7 @@ WHERE {
 Example: List all supporting statements for the claim "Calcium contributes to normal blood clotting". 
 
 ```SPARQL
-SELECT  ?claim ?claim_label ?statement ?statement_label
+SELECT ?claim ?claim_label ?statement ?statement_label
 WHERE {
     ?mp mp:argues  ?claim.
     ?claim rdfs:label ?claim_label .

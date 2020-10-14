@@ -1,0 +1,22 @@
+#+ endpoint_in_url: False
+#+ summary: What are claims related to a specific food/food component’s health effect? 
+#+ description: What are claims related to a specific food/food component’s health effect? 
+#+ tags:
+#+   - default
+#+ method: GET
+#+ pagination: 100
+#+ defaults:
+#+   - foodcomponent: https://foodb.ca/compounds/FDB003513
+
+PREFIX mp: <http://purl.org/mp/>
+PREFIX fhcp: <http://www.w3id.org/foodhkg/props/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT  ?claim ?claim_label
+WHERE {
+    ?mp mp:argues  ?claim.
+    ?claim rdfs:label ?claim_label .
+    ?mp mp:represents ?hfe .
+    ?hfe fhcp:hasPhenotype ?pheno .
+    ?hfe fhcp:hasFood ?food .
+    FILTER (?food = ?_foodcomponent_iri)
+}
