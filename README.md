@@ -2,7 +2,7 @@ A RDF knowledge graph for food health claims.
 
 * SPARQL endpoint accessible at https://graphdb.dumontierlab.com/repositories/FoodHealthClaimsKG
 * OpenAPI with [grlc.io](http://grlc.io) at http://grlc.io/api-git/MaastrichtU-IDS/food-claims-kg
-* Or https://raw.githubusercontent.com/MaastrichtU-IDS/food-claims-kg/main/urls.yml
+* Or http://grlc.io/api-url?specUrl=https://raw.githubusercontent.com/MaastrichtU-IDS/food-claims-kg/main/urls.yml
 
 ## Question answering
 
@@ -135,3 +135,21 @@ SELECT ?claim_label ?pheno_label ?pheno
 ```
 
 > <a href='https://yasgui.triply.cc/#query=PREFIX mp%3A  PREFIX fhcp%3A  PREFIX rdfs%3A  PREFIX rdf%3A  SELECT %3Fclaim_label %3Fpheno_label %3Fpheno  {    %3Fmp mp%3Aargues  %3Fclaim.    %3Fclaim rdfs%3Alabel %3Fclaim_label .    %3Fmp mp%3Arepresents %3Fhfe .    %3Fhfe fhcp%3AhasPhenotype %3Fpheno .    %3Fpheno rdfs%3Alabel %3Fpheno_label .    %3Fhfe fhcp%3AhasFood %3Ffood .    FILTER (%3Fpheno_label %3D "Normal energy-yielding metabolism") } &endpoint=https%3A%2F%2Fgraphdb.dumontierlab.com%2Frepositories%2FFoodHealthClaimsKG&requestMethod=POST&tabTitle=Query&headers={}&contentTypeConstruct=text%2Fturtle&contentTypeSelect=application%2Fsparql-results%2Bjson&outputFormat=table'>Execute the query on YASGUI</a>
+
+## grlc API examples
+
+Example of a IRI variable with defaults value (not working in this repo):
+
+* https://github.com/albertmeronyo/lodapi/blob/master/dbpedia_test.rq
+* API: http://grlc.io/api-git/albertmeronyo/lodapi#/dbpedia/get_dbpedia_test
+
+String variable: 
+
+* https://github.com/CLARIAH/wp4-queries-hisco/blob/master/get-hisco-hiscam.rq
+* API: http://grlc.io/api-git/CLARIAH/wp4-queries-hisco#/hisco/get_get_hisco_hiscam
+
+Enumerate:
+
+* https://github.com/CLARIAH/grlc-queries/blob/master/enumerate.rq
+* API: http://grlc.io/api-git/CLARIAH/grlc-queries/#/default/get_enumerate
+
