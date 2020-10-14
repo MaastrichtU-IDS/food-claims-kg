@@ -1,7 +1,7 @@
 A RDF knowledge graph for food health claims.
 
 * SPARQL endpoint accessible at https://graphdb.dumontierlab.com/repositories/FoodHealthClaimsKG
-* OpenAPI at http://grlc.io/api-git/MaastrichtU-IDS/food-claims-kg
+* OpenAPI with [grlc.io](http://grlc.io) at http://grlc.io/api-git/MaastrichtU-IDS/food-claims-kg
 
 ## Question answering
 
