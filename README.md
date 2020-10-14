@@ -23,7 +23,7 @@ WHERE {
 }
 ```
 
-> [Execute the query on YASGUI](https://yasgui.triply.cc/#query=PREFIX mp%3A  PREFIX fhcp%3A  PREFIX rdfs%3A  SELECT  %3Fclaim %3Fclaim_label {    %3Fmp mp%3Aargues  %3Fclaim.    %3Fclaim rdfs%3Alabel %3Fclaim_label .    %3Fmp mp%3Arepresents %3Fhfe .    %3Fhfe fhcp%3AhasPhenotype %3Fpheno .    %3Fhfe fhcp%3AhasFood %3Ffood .    FILTER (%3Ffood %3D ) }&endpoint=https%3A%2F%2Fgraphdb.dumontierlab.com%2Frepositories%2FFoodHealthClaimsKG&requestMethod=POST&tabTitle=Query&headers={}&contentTypeConstruct=text%2Fturtle&contentTypeSelect=application%2Fsparql-results%2Bjson&outputFormat=table)
+> <a href="https://yasgui.triply.cc/#query=PREFIX mp%3A  PREFIX fhcp%3A  PREFIX rdfs%3A  SELECT  %3Fclaim %3Fclaim_label {    %3Fmp mp%3Aargues  %3Fclaim.    %3Fclaim rdfs%3Alabel %3Fclaim_label .    %3Fmp mp%3Arepresents %3Fhfe .    %3Fhfe fhcp%3AhasPhenotype %3Fpheno .    %3Fhfe fhcp%3AhasFood %3Ffood .    FILTER (%3Ffood %3D ) }&endpoint=https%3A%2F%2Fgraphdb.dumontierlab.com%2Frepositories%2FFoodHealthClaimsKG&requestMethod=POST&tabTitle=Query&headers={}&contentTypeConstruct=text%2Fturtle&contentTypeSelect=application%2Fsparql-results%2Bjson&outputFormat=table">Execute the query on YASGUI</a>
 
 ### 2. What are the supporting statements about a food health claim?
 
@@ -40,7 +40,7 @@ WHERE {
 }
 ```
 
-> [Execute the query on YASGUI](https://yasgui.triply.cc/#query=PREFIX mp%3A  PREFIX fhcp%3A  PREFIX rdfs%3A  PREFIX rdf%3A  SELECT  %3Fclaim %3Fclaim_label %3Fstatement %3Fstatement_label {    %3Fmp mp%3Aargues  %3Fclaim.    %3Fclaim rdfs%3Alabel %3Fclaim_label .    %3Fstatement mp%3Asupports %3Fclaim .    %3Fstatement rdfs%3Alabel %3Fstatement_label .    FILTER (%3Fclaim_label %3D "Calcium contributes to normal muscle function") }&endpoint=https%3A%2F%2Fgraphdb.dumontierlab.com%2Frepositories%2FFoodHealthClaimsKG&requestMethod=POST&tabTitle=Query&headers={}&contentTypeConstruct=text%2Fturtle&contentTypeSelect=application%2Fsparql-results%2Bjson&outputFormat=table)
+> <a href='https://yasgui.triply.cc/#query=PREFIX mp%3A  PREFIX fhcp%3A  PREFIX rdfs%3A  PREFIX rdf%3A  SELECT  %3Fclaim %3Fclaim_label %3Fstatement %3Fstatement_label {    %3Fmp mp%3Aargues  %3Fclaim.    %3Fclaim rdfs%3Alabel %3Fclaim_label .    %3Fstatement mp%3Asupports %3Fclaim .    %3Fstatement rdfs%3Alabel %3Fstatement_label .    FILTER (%3Fclaim_label %3D "Calcium contributes to normal muscle function") }&endpoint=https%3A%2F%2Fgraphdb.dumontierlab.com%2Frepositories%2FFoodHealthClaimsKG&requestMethod=POST&tabTitle=Query&headers={}&contentTypeConstruct=text%2Fturtle&contentTypeSelect=application%2Fsparql-results%2Bjson&outputFormat=table'>Execute the query on YASGUI</a>
 
 ### 3. Which references have the EFSA opinions used for supporting a food health claim?
 
@@ -61,7 +61,7 @@ WHERE {
 }
 ```
 
-> [Execute the query on YASGUI](https://yasgui.triply.cc/#query=PREFIX mp%3A  PREFIX fhcp%3A  PREFIX rdfs%3A  PREFIX rdf%3A  SELECT  %3Fclaim %3Fclaim_label %3Freference %3Freference_label {    %3Fmp mp%3Aargues  %3Fclaim.    %3Fclaim rdfs%3Alabel %3Fclaim_label .    %3Fstatement mp%3Asupports %3Fclaim .    %3Freference mp%3Asupports %3Fstatement .    %3Freference rdfs%3Alabel %3Freference_label .    %3Freference rdf%3Atype mp%3AReference .    FILTER (%3Fclaim_label %3D "Calcium contributes to normal blood clotting") }&endpoint=https%3A%2F%2Fgraphdb.dumontierlab.com%2Frepositories%2FFoodHealthClaimsKG&requestMethod=POST&tabTitle=Query&headers={}&contentTypeConstruct=text%2Fturtle&contentTypeSelect=application%2Fsparql-results%2Bjson&outputFormat=table)
+> <a href='https://yasgui.triply.cc/#query=PREFIX mp%3A  PREFIX fhcp%3A  PREFIX rdfs%3A  PREFIX rdf%3A  SELECT  %3Fclaim %3Fclaim_label %3Freference %3Freference_label {    %3Fmp mp%3Aargues  %3Fclaim.    %3Fclaim rdfs%3Alabel %3Fclaim_label .    %3Fstatement mp%3Asupports %3Fclaim .    %3Freference mp%3Asupports %3Fstatement .    %3Freference rdfs%3Alabel %3Freference_label .    %3Freference rdf%3Atype mp%3AReference .    FILTER (%3Fclaim_label %3D "Calcium contributes to normal blood clotting") }&endpoint=https%3A%2F%2Fgraphdb.dumontierlab.com%2Frepositories%2FFoodHealthClaimsKG&requestMethod=POST&tabTitle=Query&headers={}&contentTypeConstruct=text%2Fturtle&contentTypeSelect=application%2Fsparql-results%2Bjson&outputFormat=table'>Execute the query on YASGUI</a>
 
 ### 4. What are the number of references listed for each claim.
 
@@ -130,4 +130,4 @@ SELECT ?claim_label ?pheno_label ?pheno
 }
 ```
 
-> [Execute the query on YASGUI](https://yasgui.triply.cc/#query=PREFIX mp%3A  PREFIX fhcp%3A  PREFIX rdfs%3A  PREFIX rdf%3A  SELECT %3Fclaim_label %3Fpheno_label %3Fpheno  {    %3Fmp mp%3Aargues  %3Fclaim.    %3Fclaim rdfs%3Alabel %3Fclaim_label .    %3Fmp mp%3Arepresents %3Fhfe .    %3Fhfe fhcp%3AhasPhenotype %3Fpheno .    %3Fpheno rdfs%3Alabel %3Fpheno_label .    %3Fhfe fhcp%3AhasFood %3Ffood .    FILTER (%3Fpheno_label %3D "Normal energy-yielding metabolism") } &endpoint=https%3A%2F%2Fgraphdb.dumontierlab.com%2Frepositories%2FFoodHealthClaimsKG&requestMethod=POST&tabTitle=Query&headers={}&contentTypeConstruct=text%2Fturtle&contentTypeSelect=application%2Fsparql-results%2Bjson&outputFormat=table)
+> <a href='https://yasgui.triply.cc/#query=PREFIX mp%3A  PREFIX fhcp%3A  PREFIX rdfs%3A  PREFIX rdf%3A  SELECT %3Fclaim_label %3Fpheno_label %3Fpheno  {    %3Fmp mp%3Aargues  %3Fclaim.    %3Fclaim rdfs%3Alabel %3Fclaim_label .    %3Fmp mp%3Arepresents %3Fhfe .    %3Fhfe fhcp%3AhasPhenotype %3Fpheno .    %3Fpheno rdfs%3Alabel %3Fpheno_label .    %3Fhfe fhcp%3AhasFood %3Ffood .    FILTER (%3Fpheno_label %3D "Normal energy-yielding metabolism") } &endpoint=https%3A%2F%2Fgraphdb.dumontierlab.com%2Frepositories%2FFoodHealthClaimsKG&requestMethod=POST&tabTitle=Query&headers={}&contentTypeConstruct=text%2Fturtle&contentTypeSelect=application%2Fsparql-results%2Bjson&outputFormat=table'>Execute the query on YASGUI</a>
