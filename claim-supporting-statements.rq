@@ -21,6 +21,6 @@ WHERE {
     ?claim rdfs:label ?claim_label .
     ?statement mp:supports ?claim .
     ?statement rdfs:label ?statement_label .
-    FILTER(lang(?label) = ?__2letterLanguageTag) . # filter on a given language, like "es", "nl", "se"
+    # FILTER(lang(?label) = ?__2letterLanguageTag) . # filter on a given language, like "es", "nl", "se"
     FILTER regex(?label, ?_claimlabel)
 }

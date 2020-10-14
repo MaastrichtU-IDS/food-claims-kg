@@ -2,7 +2,7 @@ A RDF knowledge graph for food health claims.
 
 * SPARQL endpoint accessible at https://graphdb.dumontierlab.com/repositories/FoodHealthClaimsKG
 * OpenAPI with [grlc.io](http://grlc.io) at http://grlc.io/api-git/MaastrichtU-IDS/food-claims-kg
-* Or http://grlc.io/api-url?specUrl=https://raw.githubusercontent.com/MaastrichtU-IDS/food-claims-kg/main/urls.yml
+* Or using the URL: http://grlc.io/api-url?specUrl=https://raw.githubusercontent.com/MaastrichtU-IDS/food-claims-kg/main/urls.yml
 
 ## Question answering
 
@@ -138,7 +138,7 @@ SELECT ?claim_label ?pheno_label ?pheno
 
 ## grlc API examples
 
-Example of a IRI variable with defaults value (not working in this repo):
+IRI variable with defaults value (not working for our repo):
 
 * https://github.com/albertmeronyo/lodapi/blob/master/dbpedia_test.rq
 * API: http://grlc.io/api-git/albertmeronyo/lodapi#/dbpedia/get_dbpedia_test
