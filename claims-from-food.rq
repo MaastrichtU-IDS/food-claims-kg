@@ -18,6 +18,6 @@ WHERE {
     ?claim rdfs:label ?claim_label .
     ?mp mp:represents ?hfe .
     ?hfe fhcp:hasPhenotype ?pheno .
-    ?hfe fhcp:hasFood ?food .
-    FILTER (?food = ?_foodcomponent_iri)
+    ?hfe fhcp:hasFood ?_foodcomponent_iri .
+    # FILTER (?food = ?_foodcomponent_iri)
 }
