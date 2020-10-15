@@ -5,7 +5,6 @@
 #+ tags:
 #+   - Get claims metadata
 #+ method: GET
-#+ pagination: 100
 #+ defaults:
 #+   - claimlabel: Calcium contributes to normal muscle function
 # enumerate:
