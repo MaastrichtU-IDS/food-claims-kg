@@ -12,12 +12,12 @@ PREFIX mp: <http://purl.org/mp/>
 PREFIX fhcp: <http://www.w3id.org/foodhkg/props/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-SELECT ?claim_label ?pheno_label ?pheno 
+SELECT ?phenotype ?claim ?claim_label 
 {
-    ?mp mp:argues  ?claim.
+    ?mp mp:argues ?claim.
     ?claim rdfs:label ?claim_label .
     ?mp mp:represents ?hfe .
-    ?hfe fhcp:hasPhenotype ?pheno .
-    ?pheno rdfs:label ?_phenotypelabel .
+    ?hfe fhcp:hasPhenotype ?phenotype .
+    ?phenotype rdfs:label ?_phenotypelabel .
     ?hfe fhcp:hasFood ?food .
 }
