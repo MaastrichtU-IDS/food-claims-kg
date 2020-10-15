@@ -6,7 +6,7 @@
 #+   - Get claims metadata
 #+ method: GET
 #+ defaults:
-#+   - claim_label: Calcium contributes to normal muscle function
+#+   - claimlabel: Calcium contributes to normal muscle function
 
 PREFIX mp: <http://purl.org/mp/>
 PREFIX fhcp: <http://www.w3id.org/foodhkg/props/>
@@ -14,9 +14,9 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT ?claim ?statement ?statement_label
 WHERE {
     ?mp mp:argues ?claim.
-    ?claim rdfs:label ?_claim_label .
+    ?claim rdfs:label ?_claimlabel .
     ?statement mp:supports ?claim .
     ?statement rdfs:label ?statement_label .
     # FILTER(lang(?claim_label) = ?__2letterLanguageTag) . # filter on a given language, like "es", "nl", "se"
-    # FILTER regex(?claim_label, ?_claim_label)
+    # FILTER regex(?claim_label, ?_claimlabel)
 }

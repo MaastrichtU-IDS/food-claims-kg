@@ -6,7 +6,7 @@
 #+   - Retrieve claims
 #+ method: GET
 #+ defaults:
-#+   - phenotype_label: Normal energy-yielding metabolism
+#+   - phenotypelabel: Normal energy-yielding metabolism
 
 PREFIX mp: <http://purl.org/mp/>
 PREFIX fhcp: <http://www.w3id.org/foodhkg/props/>
@@ -18,6 +18,6 @@ SELECT ?phenotype ?claim_label ?claim
     ?claim rdfs:label ?claim_label .
     ?mp mp:represents ?hfe .
     ?hfe fhcp:hasPhenotype ?phenotype .
-    ?phenotype rdfs:label ?_phenotype_label .
+    ?phenotype rdfs:label ?_phenotypelabel .
     ?hfe fhcp:hasFood ?food .
 }
