@@ -7,7 +7,7 @@
 #+ method: GET
 #+ pagination: 100
 #+ defaults:
-#+   - claimlabel: Calcium contributes to normal muscle function
+#+   - claim_label: Calcium contributes to normal muscle function
 # enumerate:
 #   - food:
 #     - https://foodb.ca/compounds/FDB003513
@@ -17,10 +17,10 @@ PREFIX fhcp: <http://www.w3id.org/foodhkg/props/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-SELECT  ?claim ?reference ?reference_label
+SELECT  ?claim ?reference_label ?reference
 WHERE {
     ?mp mp:argues  ?claim.
-    ?claim rdfs:label ?_claimlabel .
+    ?claim rdfs:label ?_claim_label .
     ?statement mp:supports ?claim .
     ?reference mp:supports ?statement .
     ?reference rdfs:label ?reference_label .

@@ -10,7 +10,7 @@ PREFIX mp: <http://purl.org/mp/>
 PREFIX fhcp: <http://www.w3id.org/foodhkg/props/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-SELECT ?reference ?reference_label (count(?claim ) as ?number_of_claims)
+SELECT (count(?claim ) as ?number_of_claims) ?reference_label ?reference
 WHERE  {
     ?mp mp:argues  ?claim.
     ?claim rdfs:label ?claim_label .

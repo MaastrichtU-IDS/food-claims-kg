@@ -15,7 +15,7 @@
 PREFIX mp: <http://purl.org/mp/>
 PREFIX fhcp: <http://www.w3id.org/foodhkg/props/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT  ?claim ?claim_label
+SELECT  ?claim_label ?claim
 WHERE {
     ?mp mp:argues  ?claim.
     ?claim rdfs:label ?claim_label .
