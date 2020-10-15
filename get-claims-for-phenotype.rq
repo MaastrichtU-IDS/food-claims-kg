@@ -1,23 +1,23 @@
 #+ endpoint: https://graphdb.dumontierlab.com/repositories/FoodHealthClaimsKG
 #+ endpoint_in_url: False
-#+ summary: What are claims related to a specific food/food component’s health effect? 
-#+ description: What are claims related to a specific food/food component’s health effect? 
+#+ summary: List all health claims associated with a specific phenotype. 
+#+ description: What are health claims associated with phenotypes/diseases?
 #+ tags:
-#+   - default
+#+   - Get claims metadata
 #+ method: GET
-#+ pagination: 100
 #+ defaults:
-#+   - foodcomponent: https://foodb.ca/compounds/FDB003513
+#+   - phenotypelabel: Normal energy-yielding metabolism
 
 PREFIX mp: <http://purl.org/mp/>
 PREFIX fhcp: <http://www.w3id.org/foodhkg/props/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT  ?claim ?claim_label
-WHERE {
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?claim_label ?pheno_label ?pheno 
+{
     ?mp mp:argues  ?claim.
     ?claim rdfs:label ?claim_label .
     ?mp mp:represents ?hfe .
     ?hfe fhcp:hasPhenotype ?pheno .
-    ?hfe fhcp:hasFood ?_foodcomponent_iri .
-    # FILTER (?food = ?_foodcomponent_iri)
+    ?pheno rdfs:label ?_phenotypelabel .
+    ?hfe fhcp:hasFood ?food .
 }

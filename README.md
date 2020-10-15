@@ -1,8 +1,8 @@
 A RDF knowledge graph for food health claims.
 
-* SPARQL endpoint accessible at https://graphdb.dumontierlab.com/repositories/FoodHealthClaimsKG
-* OpenAPI with [grlc.io](http://grlc.io) at http://grlc.io/api-git/MaastrichtU-IDS/food-claims-kg
-* Or using the URL: http://grlc.io/api-url?specUrl=https://raw.githubusercontent.com/MaastrichtU-IDS/food-claims-kg/main/urls.yml
+The easiest way to explore the knowledge graph is to use the API powered by [grlc.io](http://grlc.io) at http://grlc.io/api-git/MaastrichtU-IDS/food-claims-kg
+
+The SPARQL endpoint is accessible at https://graphdb.dumontierlab.com/repositories/FoodHealthClaimsKG
 
 ## Question answering
 
@@ -67,7 +67,7 @@ WHERE {
 
 > <a href='https://yasgui.triply.cc/#query=PREFIX mp%3A  PREFIX fhcp%3A  PREFIX rdfs%3A  PREFIX rdf%3A  SELECT  %3Fclaim %3Fclaim_label %3Freference %3Freference_label {    %3Fmp mp%3Aargues  %3Fclaim.    %3Fclaim rdfs%3Alabel %3Fclaim_label .    %3Fstatement mp%3Asupports %3Fclaim .    %3Freference mp%3Asupports %3Fstatement .    %3Freference rdfs%3Alabel %3Freference_label .    %3Freference rdf%3Atype mp%3AReference .    FILTER (%3Fclaim_label %3D "Calcium contributes to normal blood clotting") }&endpoint=https%3A%2F%2Fgraphdb.dumontierlab.com%2Frepositories%2FFoodHealthClaimsKG&requestMethod=POST&tabTitle=Query&headers={}&contentTypeConstruct=text%2Fturtle&contentTypeSelect=application%2Fsparql-results%2Bjson&outputFormat=table'>Execute the query on YASGUI</a>
 
-### 4. What are the number of references listed for each claim.
+### 4. What are the number of references listed for each claim?
 
 Example: List all claims and the numbers of their references (Some of them have “0” reference.)
 

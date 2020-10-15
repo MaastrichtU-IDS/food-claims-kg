@@ -1,0 +1,28 @@
+#+ endpoint: https://graphdb.dumontierlab.com/repositories/FoodHealthClaimsKG
+#+ endpoint_in_url: False
+#+ summary: List all references listed in the EFSA opinion for a specific claim
+#+ description: Which references have the EFSA opinions used for supporting a food health claim?
+#+ tags:
+#+   - Get claims metadata
+#+ method: GET
+#+ pagination: 100
+#+ defaults:
+#+   - claimlabel: Calcium contributes to normal muscle function
+# enumerate:
+#   - food:
+#     - https://foodb.ca/compounds/FDB003513
+
+PREFIX mp: <http://purl.org/mp/>
+PREFIX fhcp: <http://www.w3id.org/foodhkg/props/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT  ?claim ?reference ?reference_label
+WHERE {
+    ?mp mp:argues  ?claim.
+    ?claim rdfs:label ?_claimlabel .
+    ?statement mp:supports ?claim .
+    ?reference mp:supports ?statement .
+    ?reference rdfs:label ?reference_label .
+    ?reference rdf:type mp:Reference .
+}

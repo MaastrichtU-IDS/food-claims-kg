@@ -1,0 +1,26 @@
+#+ endpoint: https://graphdb.dumontierlab.com/repositories/FoodHealthClaimsKG
+#+ endpoint_in_url: False
+#+ summary: List all claims and the count of their references
+#+ description: What are the number of references listed for each claim? Some of them have “0” reference.
+#+ tags:
+#+   - Get claims metadata
+#+ method: GET
+#+ pagination: 100
+
+PREFIX mp: <http://purl.org/mp/>
+PREFIX fhcp: <http://www.w3id.org/foodhkg/props/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?claim ?claim_label (count(?reference ) as ?number_of_claims)
+WHERE  {
+    ?mp mp:argues  ?claim.
+    ?claim rdfs:label ?claim_label .
+    ?statement mp:supports ?claim .
+    OPTIONAL {
+    ?reference mp:supports ?statement .
+    ?reference rdfs:label ?reference_label .
+    ?reference rdf:type mp:Reference . 
+    }
+}
+GROUP BY ?claim ?claim_label

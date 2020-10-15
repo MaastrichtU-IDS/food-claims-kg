@@ -1,9 +1,9 @@
 #+ endpoint: https://graphdb.dumontierlab.com/repositories/FoodHealthClaimsKG
 #+ endpoint_in_url: False
-#+ summary: What are claims related to a specific food/food component’s health effect? 
-#+ description: What are claims related to a specific food/food component’s health effect? 
+#+ summary: List all supporting statements for a specific claim
+#+ description: What are the supporting statements about a food health claim?
 #+ tags:
-#+   - default
+#+   - Get claims metadata
 #+ method: GET
 #+ pagination: 100
 #+ defaults:
@@ -15,12 +15,12 @@
 PREFIX mp: <http://purl.org/mp/>
 PREFIX fhcp: <http://www.w3id.org/foodhkg/props/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT ?claim ?claim_label ?statement ?statement_label
+SELECT ?claim ?statement ?statement_label
 WHERE {
-    ?mp mp:argues  ?claim.
-    ?claim rdfs:label ?claim_label .
+    ?mp mp:argues ?claim.
+    ?claim rdfs:label ?_claimlabel .
     ?statement mp:supports ?claim .
     ?statement rdfs:label ?statement_label .
     # FILTER(lang(?claim_label) = ?__2letterLanguageTag) . # filter on a given language, like "es", "nl", "se"
-    FILTER regex(?claim_label, ?_claimlabel)
+    # FILTER regex(?claim_label, ?_claimlabel)
 }
