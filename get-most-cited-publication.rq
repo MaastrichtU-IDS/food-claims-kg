@@ -3,7 +3,7 @@
 #+ summary: List the most frequently cited publications in the EFSA opinions.
 #+ description: Which publication was most frequently cited in the EFSA opinions?
 #+ tags:
-#+   - Get claims metadata
+#+   - Explore
 #+ method: GET
 
 PREFIX mp: <http://purl.org/mp/>

@@ -3,9 +3,8 @@
 #+ summary: List all claims and the count of their references
 #+ description: What are the number of references listed for each claim? Some of them have “0” reference.
 #+ tags:
-#+   - Get claims metadata
+#+   - Explore
 #+ method: GET
-#+ pagination: 100
 
 PREFIX mp: <http://purl.org/mp/>
 PREFIX fhcp: <http://www.w3id.org/foodhkg/props/>

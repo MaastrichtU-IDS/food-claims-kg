@@ -3,7 +3,7 @@
 #+ summary: List all health claims associated with a specific phenotype. 
 #+ description: What are health claims associated with phenotypes/diseases?
 #+ tags:
-#+   - Get claims metadata
+#+   - Retrieve claims
 #+ method: GET
 #+ defaults:
 #+   - phenotypelabel: Normal energy-yielding metabolism

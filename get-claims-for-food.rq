@@ -3,11 +3,14 @@
 #+ summary:  List all claims related to the health effect of a specific food
 #+ description: What are claims related to a specific food/food component health effect? 
 #+ tags:
-#+   - Get claims
+#+   - Retrieve claims
 #+ method: GET
 #+ pagination: 100
 #+ defaults:
 #+   - foodcomponent: https://foodb.ca/compounds/FDB003513
+# enumerate:
+#   - food:
+#     - https://foodb.ca/compounds/FDB003513
 
 PREFIX mp: <http://purl.org/mp/>
 PREFIX fhcp: <http://www.w3id.org/foodhkg/props/>
