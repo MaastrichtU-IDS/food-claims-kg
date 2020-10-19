@@ -2,10 +2,11 @@ name: Generate RDF from Google doc
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches: [ master ]
-  #   paths:
-  #   - 'ids-services-registry/convert-ids-services.yarrr.yml'
+  push:
+    branches: [ master ]
+    paths:
+    - 'src/convert_to_rdf.py'
+    - '.github/workflows/generate-rdf.yml'
   # schedule:
   #   - cron: '0 2 * * *'
   # Everyday at 2am
