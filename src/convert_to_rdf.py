@@ -153,31 +153,31 @@ def turn_into_mp(row, dataset):
             dataset = createFoodRelTriples(
                 dataset, hr_subj, fooduri, row['Food Type'], row['Food'])
 
-    if row['Target population'] != '':
-        if row['Target population ontology term'] != '':
-            if row['Target population ontology term'] == 'http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C18241':
-                targetPopUri = URIRef(
-                    'http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C18241')
-            else:
-                targetPopUri = FOODHKG_INST[get_hash(
-                    row['Target population ontology term'])]
-                tp_text = row['Target population ontology term'].split('\n')
-                for tp in tp_text:
-                    tp_tuple = tp.split(': ')
-                    if len(tp_tuple) != 2:
-                        continue
-                    print(tp_tuple)
-                    pred = tp_tuple[0]
-                    obj = tp_tuple[1].strip()
-                    if not obj.startswith('http'):
-                        dataset.add((targetPopUri, PICO[pred], Literal(obj)))
-                    else:
-                        dataset.add(
-                            (targetPopUri, FOODHKG_PROPS[pred], URIRef(obj)))
-        dataset.add((targetPopUri, RDFS['label'],
-                     Literal(row['Target population'])))
-        dataset.add(
-            (hr_subj, FOODHKG_PROPS['hasTargetPopulation'],  targetPopUri))
+    # if row['Target population'] != '':
+    #     if row['Target population ontology term'] != '':
+    #         if row['Target population ontology term'] == 'http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C18241':
+    #             targetPopUri = URIRef(
+    #                 'http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C18241')
+    #         else:
+    #             targetPopUri = FOODHKG_INST[get_hash(
+    #                 row['Target population ontology term'])]
+    #             tp_text = row['Target population ontology term'].split('\n')
+    #             for tp in tp_text:
+    #                 tp_tuple = tp.split(': ')
+    #                 if len(tp_tuple) != 2:
+    #                     continue
+    #                 print(tp_tuple)
+    #                 pred = tp_tuple[0]
+    #                 obj = tp_tuple[1].strip()
+    #                 if not obj.startswith('http'):
+    #                     dataset.add((targetPopUri, PICO[pred], Literal(obj)))
+    #                 else:
+    #                     dataset.add(
+    #                         (targetPopUri, FOODHKG_PROPS[pred], URIRef(obj)))
+    #     dataset.add((targetPopUri, RDFS['label'],
+    #                  Literal(row['Target population'])))
+    #     dataset.add(
+    #         (hr_subj, FOODHKG_PROPS['hasTargetPopulation'],  targetPopUri))
 
     for i in range(1, 9):
         if str(row[f'Supporting Evidence Text {i}']) == 'nan':

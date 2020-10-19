@@ -35,17 +35,6 @@ jobs:
       run: |
         python src/convert_to_rdf.py
 
-    # - name: Upload CSV input artifact
-    #   uses: actions/upload-artifact@v1
-    #   with:
-    #     name: csv-input
-    #     path: ids-category-spreadsheet.csv
-
-    # - uses: vemonet/yarrrml-parser@v1.1
-    #   with:
-    #     input: ids-services-registry/convert-ids-services.yarrr.yml
-    #     output: convert-ids-services.rml.ttl
-
     - name: Upload output RDF data
       uses: actions/upload-artifact@v1
       with:
