@@ -14,9 +14,9 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT ?claim ?statement ?statement_label
 WHERE {
     ?mp mp:argues ?claim.
-    ?claim rdfs:label ?_claimlabel .
+    ?claim rdfs:label ?claim_label .
     ?statement mp:supports ?claim .
     ?statement rdfs:label ?statement_label .
+    FILTER regex(?claim_label, ?_claimlabel)
     # FILTER(lang(?claim_label) = ?__2letterLanguageTag) . # filter on a given language, like "es", "nl", "se"
-    # FILTER regex(?claim_label, ?_claimlabel)
 }

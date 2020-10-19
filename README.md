@@ -2,9 +2,15 @@
 
 A RDF knowledge graph for food health claims.
 
-The easiest way to explore the knowledge graph is to use the various API calls at http://grlc.io/api-git/MaastrichtU-IDS/food-claims-kg (API powered by [grlc.io](http://grlc.io))
+The easiest way to explore the knowledge graph is to use the various API calls at http://grlc.io/api-git/MaastrichtU-IDS/food-claims-kg 
+
+> API powered by [grlc.io](http://grlc.io)
 
 The SPARQL endpoint is accessible at https://graphdb.dumontierlab.com/repositories/FoodHealthClaimsKG
+
+## Check the SPARQL queries
+
+Queries from the grlc API can be checked and changed in the `.rq` files. Variable starting with an underscore, such as `_claimlabel`, are asked to the user as parameter of the generated call.
 
 ## Run conversion scripts
 

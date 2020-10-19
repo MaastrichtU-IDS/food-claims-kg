@@ -1,8 +1,0 @@
-title: Food Claims KG API
-contact:
-  name: Vincent Emonet
-  url: https://github.com/MaastrichtU-IDS/food-claims-kg
-licence: https://github.com/MaastrichtU-IDS/food-claims-kg/blob/main/LICENSE
-queries:
-  - https://raw.githubusercontent.com/MaastrichtU-IDS/food-claims-kg/main/claim-supporting-statements.rq
-  - https://raw.githubusercontent.com/MaastrichtU-IDS/food-claims-kg/main/claims-from-food.rq

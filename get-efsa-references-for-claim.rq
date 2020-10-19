@@ -18,9 +18,10 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 SELECT  ?claim ?reference_label ?reference
 WHERE {
     ?mp mp:argues  ?claim.
-    ?claim rdfs:label ?_claimlabel .
+    ?claim rdfs:label ?claim_label .
     ?statement mp:supports ?claim .
     ?reference mp:supports ?statement .
     ?reference rdfs:label ?reference_label .
     ?reference rdf:type mp:Reference .
+    FILTER regex(?claim_label, ?_claimlabel)
 }

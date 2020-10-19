@@ -18,6 +18,7 @@ SELECT ?phenotype ?claim_label ?claim
     ?claim rdfs:label ?claim_label .
     ?mp mp:represents ?hfe .
     ?hfe fhcp:hasPhenotype ?phenotype .
-    ?phenotype rdfs:label ?_phenotypelabel .
+    ?phenotype rdfs:label ?phenotype_label .
     ?hfe fhcp:hasFood ?food .
+    FILTER regex(?phenotype_label, ?_phenotypelabel)
 }
