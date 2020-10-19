@@ -10,9 +10,13 @@ The SPARQL endpoint is accessible at https://graphdb.dumontierlab.com/repositori
 
 ## Check the SPARQL queries
 
-Queries from the grlc API can be checked and changed in the `.rq` files. Variable starting with an underscore, such as `_claimlabel`, are asked to the user as parameter of the generated call.
+Queries from the grlc API can be checked and changed in the `.rq` files. 
+
+Variables starting with an underscore, e.g. `_claimlabel`, are asked to the user as parameter of the generated API call.
 
 ## Run conversion scripts
+
+> Scripts run automatically with [GitHub Actions](https://github.com/MaastrichtU-IDS/food-claims-kg/actions) at every push to the `master` branch.
 
 Clone the repository:
 
