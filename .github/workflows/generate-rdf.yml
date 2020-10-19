@@ -1,0 +1,67 @@
+name: Generate RDF from Google doc
+
+on:
+  workflow_dispatch:
+  # push:
+  #   branches: [ master ]
+  #   paths:
+  #   - 'ids-services-registry/convert-ids-services.yarrr.yml'
+  # schedule:
+  #   - cron: '0 2 * * *'
+  # Everyday at 2am
+
+jobs:
+  generate-rdf:
+    runs-on: ubuntu-latest
+    steps: 
+    - uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
+
+    - name: Download CSV files from Google docs
+      run: |
+        mkdir -p data/output
+        wget -O data/food-claims-kg.xlsx "https://docs.google.com/spreadsheets/d/1RWZ6AlGB8m7PO5kjsbbbeI4ETLwvKLOvkrzOpl8zAM8/export?format=xlsx&id=1RWZ6AlGB8m7PO5kjsbbbeI4ETLwvKLOvkrzOpl8zAM8"
+
+    - name: Download CSV files from Google docs
+      run: |
+        python src/convert_to_rdf.py
+
+    # - name: Upload CSV input artifact
+    #   uses: actions/upload-artifact@v1
+    #   with:
+    #     name: csv-input
+    #     path: ids-category-spreadsheet.csv
+
+    # - uses: vemonet/yarrrml-parser@v1.1
+    #   with:
+    #     input: ids-services-registry/convert-ids-services.yarrr.yml
+    #     output: convert-ids-services.rml.ttl
+
+    - name: Upload output RDF data
+      uses: actions/upload-artifact@v1
+      with:
+        name: rdf-output
+        path: data
+
+    # - name: Clear older graph
+    #   uses: vemonet/sparql-operations-action@v1
+    #   with:
+    #     query: "CLEAR GRAPH <https://w3id.org/d2s/services/registry>"
+    #     endpoint: https://graphdb.dumontierlab.com/repositories/umids-kg/statements
+    #     user: ${{ secrets.GRAPHDB_USER }}
+    #     password: ${{ secrets.GRAPHDB_PASSWORD }}
+
+    # - uses: MaastrichtU-IDS/RdfUpload@master
+    #   with:
+    #     file: ids-services-registry.nt
+    #     endpoint: https://graphdb.dumontierlab.com/repositories/umids-kg/statements
+    #     user: ${{ secrets.GRAPHDB_USER }}
+    #     password: ${{ secrets.GRAPHDB_PASSWORD }}
+    #     graph: "https://w3id.org/d2s/services/registry"
+
+
+

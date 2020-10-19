@@ -211,7 +211,7 @@ def turn_into_mp(row, dataset):
 
 
 if __name__ == '__main__':
-    df = pd.read_excel('data/Food Health Claims- KG.xlsx',
+    df = pd.read_excel('data/food-claims-kg.xlsx',
                        sheet_name='13. Authorised')
 
     dataset = Dataset()
@@ -221,7 +221,7 @@ if __name__ == '__main__':
         if row['Status'] == 'Finished':
             dataset = turn_into_mp(row, dataset)
 
-    df = pd.read_excel('data/Food Health Claims- KG.xlsx',
+    df = pd.read_excel('data/food-claims-kg.xlsx',
                        sheet_name='14. Authorised')
 
     for index, row in df.iterrows():
