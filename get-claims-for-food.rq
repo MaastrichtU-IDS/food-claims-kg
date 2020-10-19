@@ -7,7 +7,7 @@
 #+ method: GET
 #+ pagination: 100
 #+ defaults:
-#+   - foodlabel: https://foodb.ca/compounds/FDB003513
+#+   - foodlabel: calcium
 # enumerate:
 #   - food:
 #     - https://foodb.ca/compounds/FDB003513
