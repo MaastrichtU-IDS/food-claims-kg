@@ -1,4 +1,4 @@
-[![Generate RDF from Google doc](https://github.com/MaastrichtU-IDS/food-claims-kg/workflows/Generate%20RDF%20from%20Google%20doc/badge.svg)](actions)
+[![Generate RDF from Google doc](https://github.com/MaastrichtU-IDS/food-claims-kg/workflows/Generate%20RDF%20from%20Google%20doc/badge.svg)](https://github.com/MaastrichtU-IDS/food-claims-kg/actions)
 
 A RDF knowledge graph for food health claims.
 
