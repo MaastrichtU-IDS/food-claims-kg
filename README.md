@@ -4,8 +4,6 @@ A RDF knowledge graph for food health claims.
 
 The easiest way to explore the knowledge graph is to use the various API calls at http://grlc.io/api-git/MaastrichtU-IDS/food-claims-kg 
 
-> API powered by [grlc.io](http://grlc.io)
-
 The SPARQL endpoint is accessible at https://graphdb.dumontierlab.com/repositories/FoodHealthClaimsKG
 
 ## Check the SPARQL queries
@@ -44,7 +42,9 @@ Run the conversion script:
 python3 src/convert_to_rdf.py
 ```
 
-## grlc API examples
+## Examples of grlc API
+
+> API powered by **[grlc.io 🧅](http://grlc.io)**
 
 IRI variable with defaults value (not working for our repo):
 
