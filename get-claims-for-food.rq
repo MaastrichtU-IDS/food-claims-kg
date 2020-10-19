@@ -21,7 +21,7 @@ WHERE {
     ?claim rdfs:label ?claim_label .
     ?mp mp:represents ?hfe .
     ?hfe fhcp:hasPhenotype ?pheno .
-    # ?hfe fhcp:hasFood ?_foodcomponent_iri .
+    ?hfe fhcp:hasFood ?food .
     ?food rdfs:label ?food_label .
     FILTER regex(?food_label, ?_foodlabel)
     # FILTER (?food = ?_foodcomponent_iri)
