@@ -52,21 +52,21 @@ jobs:
         name: rdf-output
         path: data
 
-    # - name: Clear older graph
-    #   uses: vemonet/sparql-operations-action@v1
-    #   with:
-    #     query: "CLEAR GRAPH <https://w3id.org/d2s/services/registry>"
-    #     endpoint: https://graphdb.dumontierlab.com/repositories/umids-kg/statements
-    #     user: ${{ secrets.GRAPHDB_USER }}
-    #     password: ${{ secrets.GRAPHDB_PASSWORD }}
+    - name: Clear older graph
+      uses: vemonet/sparql-operations-action@v1
+      with:
+        query: "CLEAR GRAPH <https://w3id.org/foodkg/graph>"
+        endpoint: https://graphdb.dumontierlab.com/repositories/FoodHealthClaimsKG/statements
+        user: ${{ secrets.GRAPHDB_USER }}
+        password: ${{ secrets.GRAPHDB_PASSWORD }}
 
-    # - uses: MaastrichtU-IDS/RdfUpload@master
-    #   with:
-    #     file: ids-services-registry.nt
-    #     endpoint: https://graphdb.dumontierlab.com/repositories/umids-kg/statements
-    #     user: ${{ secrets.GRAPHDB_USER }}
-    #     password: ${{ secrets.GRAPHDB_PASSWORD }}
-    #     graph: "https://w3id.org/d2s/services/registry"
+    - uses: MaastrichtU-IDS/RdfUpload@master
+      with:
+        file: data/output/food_health_kg.ttl
+        endpoint: https://graphdb.dumontierlab.com/repositories/FoodHealthClaimsKG/statements
+        user: ${{ secrets.GRAPHDB_USER }}
+        password: ${{ secrets.GRAPHDB_PASSWORD }}
+        graph: "https://w3id.org/foodkg/graph"
 
 
 

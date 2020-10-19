@@ -1,3 +1,5 @@
+![Generate RDF from Google doc](https://github.com/MaastrichtU-IDS/food-claims-kg/workflows/Generate%20RDF%20from%20Google%20doc/badge.svg)
+
 A RDF knowledge graph for food health claims.
 
 The easiest way to explore the knowledge graph is to use the API powered by [grlc.io](http://grlc.io) at http://grlc.io/api-git/MaastrichtU-IDS/food-claims-kg
