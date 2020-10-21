@@ -19,10 +19,14 @@ import hashlib
 import base64
 import re
 
-UMLS = Namespace("http://www.w3id.org/umls/")
+import json 
+import requests
+
+UMLS = Namespace("https://identifiers.org/umls:")
 FOODHKG_INST = Namespace("http://www.w3id.org/foodhkg/Instances/")
 RDFS = Namespace("http://www.w3.org/2000/01/rdf-schema#")
 RDF = Namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+OWL = Namespace("http://www.w3.org/2002/07/owl#")
 BASE = Namespace("http://www.w3id.org/")
 SKOS = Namespace("http://www.w3.org/2004/02/skos/core#")
 SCHEMA = Namespace("http://schema.org/")
@@ -34,6 +38,7 @@ FOODHKG_CLS = Namespace("http://www.w3id.org/foodhkg/classes/")
 DOI = Namespace("http://doi.org/")
 PICO = Namespace("http://data.cochrane.org/ontologies/pico/")
 
+phenotypes_hash = {}
 
 def convert_json(dataset):
     data_json = {'nodes': [], 'edges': []}
@@ -66,8 +71,41 @@ def createPhenotypeRelTriples(dataset, hr_subj, pheno_uri, pheno_label):
     dataset.add((pheno_uri, RDF['type'],  FOODHKG_CLS['Phenotype']))
     dataset.add((pheno_uri, RDFS['label'],  Literal(pheno_label)))
     dataset.add((hr_subj, FOODHKG_PROPS['hasPhenotype'],  pheno_uri))
+    phenotypes_hash[get_phenotype_curie(pheno_uri)] = pheno_uri
     return dataset
 
+def get_phenotype_curie(phenotype_uri):
+    if '/MEDDRA/' in phenotype_uri:
+        phenotype_id = phenotype_uri.split("/MEDDRA/",1)[1] 
+        return 'MEDDRA:' + phenotype_id
+    if '/HP:' in phenotype_uri:
+        phenotype_id = phenotype_uri.split("/HP:",1)[1]
+        return 'HP:' + phenotype_id
+    # if '/GO:' in phenotype_uri:
+    #     phenotype_id = phenotype_uri.split("/GO:",1)[1]
+    #     return 'GO:' + phenotype_id
+
+def add_umls_mappings():
+    print(str(len(phenotypes_hash.keys())) + ' MEDDRA and HP identifiers to resolve to UMLS')
+    # Resolve CURIEs to UMLS using Translator NodeNormalization
+    resolve_curies = requests.get('https://nodenormalization-sri.renci.org/get_normalized_nodes',
+                        params={'curie': phenotypes_hash.keys()})
+    
+    # Query OpenPredict API with OMIM IDs
+    resp = resolve_curies.json()
+    # print(resp)
+    matchCount = 0
+    for resolve_id, ids in resp.items():
+        if ids and ids['id']['identifier'].startswith('UMLS:'):
+            matchCount += 1
+            print('Got a match for ' + resolve_id + ' => ' + ids['id']['identifier'])
+            # print(ids)
+            # Create owl:sameAs to UMLS
+            dataset.add((URIRef(phenotypes_hash[resolve_id]), 
+                        OWL['sameAs'], UMLS[ids['id']['identifier'].replace('UMLS:', '')]))
+        else:
+            print('No match for ' + resolve_id)
+    print(str(matchCount) + ' matches to UMLS on ' + str(len(phenotypes_hash.keys())) + ' id searched in Translator API')
 
 def createFoodRelTriples(dataset, hr_subj, fooduri, food_type, food_label):
     dataset.add((hr_subj, FOODHKG_PROPS['hasFood'],  fooduri))
@@ -227,5 +265,6 @@ if __name__ == '__main__':
     for index, row in df.iterrows():
         if row['Finished?'] == 'Finished':
             dataset = turn_into_mp(row, dataset)
+    add_umls_mappings()
 
     dataset.serialize('data/output/food_health_kg.ttl', format='turtle')
