@@ -36,6 +36,12 @@ mkdir -p data/output
 wget -O data/food-claims-kg.xlsx "https://docs.google.com/spreadsheets/d/1RWZ6AlGB8m7PO5kjsbbbeI4ETLwvKLOvkrzOpl8zAM8/export?format=xlsx&id=1RWZ6AlGB8m7PO5kjsbbbeI4ETLwvKLOvkrzOpl8zAM8"
 ```
 
+Define API key to query UMLS:
+
+```bash
+export UMLS_APIKEY=00000000000000
+```
+
 Run the conversion script:
 
 ```bash

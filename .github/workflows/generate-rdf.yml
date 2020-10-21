@@ -2,11 +2,11 @@ name: Generate RDF from Google doc
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ master ]
-    paths:
-    - 'src/convert_to_rdf.py'
-    - '.github/workflows/generate-rdf.yml'
+  # push:
+  #   branches: [ master ]
+  #   paths:
+  #   - 'src/convert_to_rdf.py'
+  #   - '.github/workflows/generate-rdf.yml'
   # schedule:
   #   - cron: '0 2 * * *'
   # Everyday at 2am
@@ -34,6 +34,8 @@ jobs:
     - name: Download CSV files from Google docs
       run: |
         python src/convert_to_rdf.py
+      env:
+        UMLS_APIKEY: ${{ secrets.UMLS_APIKEY }}
 
     - name: Upload output RDF data
       uses: actions/upload-artifact@v1

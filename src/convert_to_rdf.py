@@ -2,7 +2,7 @@
 """Convert_FHClaimToRDF.ipynb
 Convert Food Health Claims to RDF Knowledge Graph
 """
-
+from __future__ import print_function
 
 # import for RDF knowledge
 from rdflib import Graph, URIRef, Literal, RDF, ConjunctiveGraph
@@ -22,6 +22,11 @@ import re
 import json 
 import requests
 
+# To query UMLS API
+from UmlsAuthentication import Authentication
+import argparse
+import time
+
 UMLS = Namespace("https://identifiers.org/umls:")
 FOODHKG_INST = Namespace("http://www.w3id.org/foodhkg/Instances/")
 RDFS = Namespace("http://www.w3.org/2000/01/rdf-schema#")
@@ -39,6 +44,7 @@ DOI = Namespace("http://doi.org/")
 PICO = Namespace("http://data.cochrane.org/ontologies/pico/")
 
 phenotypes_hash = {}
+umls_api_found_count = 0
 
 def convert_json(dataset):
     data_json = {'nodes': [], 'edges': []}
@@ -71,7 +77,7 @@ def createPhenotypeRelTriples(dataset, hr_subj, pheno_uri, pheno_label):
     dataset.add((pheno_uri, RDF['type'],  FOODHKG_CLS['Phenotype']))
     dataset.add((pheno_uri, RDFS['label'],  Literal(pheno_label)))
     dataset.add((hr_subj, FOODHKG_PROPS['hasPhenotype'],  pheno_uri))
-    phenotypes_hash[get_phenotype_curie(pheno_uri)] = pheno_uri
+    phenotypes_hash[get_phenotype_curie(pheno_uri)] = { 'uri': pheno_uri, 'label': pheno_label }
     return dataset
 
 def get_phenotype_curie(phenotype_uri):
@@ -93,19 +99,80 @@ def add_umls_mappings():
     
     # Query OpenPredict API with OMIM IDs
     resp = resolve_curies.json()
-    # print(resp)
+    print(resp)
     matchCount = 0
+    umls_api_found_count = 0
     for resolve_id, ids in resp.items():
         if ids and ids['id']['identifier'].startswith('UMLS:'):
             matchCount += 1
-            print('Got a match for ' + resolve_id + ' => ' + ids['id']['identifier'])
+            # print('Got a match for ' + resolve_id + ' => ' + ids['id']['identifier'])
             # print(ids)
             # Create owl:sameAs to UMLS
-            dataset.add((URIRef(phenotypes_hash[resolve_id]), 
+            dataset.add((URIRef(phenotypes_hash[resolve_id]['uri']), 
                         OWL['sameAs'], UMLS[ids['id']['identifier'].replace('UMLS:', '')]))
         else:
-            print('No match for ' + resolve_id)
+            print('\nNo match for ' + resolve_id + ' in Translator API, trying UMLS API with label: ' + phenotypes_hash[resolve_id]['label'])
+            umls_id = search_term_in_umls_api(phenotypes_hash[resolve_id]['label'])
+            print("URI found with UMLS API:")
+            print(umls_id)
+            if umls_id:
+                umls_api_found_count += 1
+                dataset.add((URIRef(phenotypes_hash[resolve_id]['uri']), 
+                            OWL['sameAs'], UMLS[umls_id]))
+
     print(str(matchCount) + ' matches to UMLS on ' + str(len(phenotypes_hash.keys())) + ' id searched in Translator API')
+    print(str(umls_api_found_count) + ' matches to UMLS on ' + str(len(phenotypes_hash.keys())) + ' id searched with UMLS API')
+
+def search_term_in_umls_api(search_string):
+    apikey = os.environ['UMLS_APIKEY']
+    if apikey:
+        # Sleep 2s between each API calls
+        time.sleep(2)
+        version = 'current'
+        uri = "https://uts-ws.nlm.nih.gov"
+        content_endpoint = "/rest/search/"+version
+        ##get at ticket granting ticket for the session
+        AuthClient = Authentication(apikey)
+        tgt = AuthClient.gettgt()
+        pageNumber=0
+
+        while True:
+            ##generate a new service ticket for each page if needed
+            ticket = AuthClient.getst(tgt)
+            pageNumber += 1
+            query = {'string':search_string,'ticket':ticket, 'pageNumber':pageNumber}
+            #query['includeObsolete'] = 'true'
+            #query['includeSuppressible'] = 'true'
+            #query['returnIdType'] = "sourceConcept"
+            #query['sabs'] = "SNOMEDCT_US"
+            r = requests.get(uri+content_endpoint,params=query)
+            r.encoding = 'utf-8'
+            items  = json.loads(r.text)
+            jsonData = items["result"]
+            #print (json.dumps(items, indent = 4))
+
+            print("Results for page " + str(pageNumber))
+            for result in jsonData["results"]:
+                try:
+                    print("ui: " + result["ui"])
+                    print("name: " + result["name"])
+                    print("Source Vocabulary: " + result["rootSource"])
+                except:
+                    NameError
+                
+                try:
+                    print("uri: " + result["uri"])
+                    # Troncate after /CUI/ to get ID
+                    # https://uts-ws.nlm.nih.gov/rest/content/2020AA/CUI/C0027794
+                    return result["uri"][result["uri"].find('/CUI/')+5:]
+                except:
+                    NameError
+
+            ##Either our search returned nothing, or we're at the end
+            if jsonData["results"][0]["ui"] == "NONE":
+                break
+    else:
+        print("No UMLS APIKEY found: skipping UMLS API search. Set it as environment variable UMLS_APIKEY")
 
 def createFoodRelTriples(dataset, hr_subj, fooduri, food_type, food_label):
     dataset.add((hr_subj, FOODHKG_PROPS['hasFood'],  fooduri))
