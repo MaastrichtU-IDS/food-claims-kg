@@ -1,3 +1,4 @@
 pandas
 rdflib
 xlrd
+requests
