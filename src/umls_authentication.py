@@ -14,7 +14,7 @@ uri="https://utslogin.nlm.nih.gov"
 #option 2 - api key authentication at /cas/v1/api-key
 auth_endpoint = "/cas/v1/api-key"
 
-class Authentication:
+class UmlsAuthentication:
 
    #def __init__(self, username,password):
    def __init__(self, apikey):

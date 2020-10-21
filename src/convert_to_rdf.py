@@ -4,7 +4,7 @@ Convert Food Health Claims to RDF Knowledge Graph
 """
 from __future__ import print_function
 
-# import for RDF knowledge
+# import for RDF knowledge graph
 from rdflib import Graph, URIRef, Literal, RDF, ConjunctiveGraph
 from rdflib import Namespace
 from rdflib import Dataset
@@ -12,18 +12,15 @@ from rdflib import Dataset
 import pandas as pd
 import os
 import re
-
 import io
 from io import BytesIO
 import hashlib
 import base64
-import re
-
 import json 
 import requests
 
 # To query UMLS API
-from UmlsAuthentication import Authentication
+from umls_authentication import UmlsAuthentication
 import argparse
 import time
 
@@ -81,6 +78,8 @@ def createPhenotypeRelTriples(dataset, hr_subj, pheno_uri, pheno_label):
     return dataset
 
 def get_phenotype_curie(phenotype_uri):
+    """Extract Phenotypes CURIE from the URI
+    """
     if '/MEDDRA/' in phenotype_uri:
         phenotype_id = phenotype_uri.split("/MEDDRA/",1)[1] 
         return 'MEDDRA:' + phenotype_id
@@ -92,6 +91,11 @@ def get_phenotype_curie(phenotype_uri):
     #     return 'GO:' + phenotype_id
 
 def add_umls_mappings():
+    """This function will add owl:sameAs mappings to the UMLS. 
+    It first try using the Translator NodeNormalization API
+    If we dont find a UMLS identifier as preferred ID 
+    Then we query the UMLS API using the labels to find UMLS id
+    """
     print(str(len(phenotypes_hash.keys())) + ' MEDDRA and HP identifiers to resolve to UMLS')
     # Resolve CURIEs to UMLS using Translator NodeNormalization
     resolve_curies = requests.get('https://nodenormalization-sri.renci.org/get_normalized_nodes',
@@ -124,6 +128,9 @@ def add_umls_mappings():
     print(str(umls_api_found_count) + ' matches to UMLS on ' + str(len(phenotypes_hash.keys())) + ' id searched with UMLS API')
 
 def search_term_in_umls_api(search_string):
+    """This function will query the UMLS API to resolve labels. 
+    It uses the umls_authentication.py file
+    """
     apikey = os.environ['UMLS_APIKEY']
     if apikey:
         # Sleep 2s between each API calls
@@ -132,7 +139,7 @@ def search_term_in_umls_api(search_string):
         uri = "https://uts-ws.nlm.nih.gov"
         content_endpoint = "/rest/search/"+version
         ##get at ticket granting ticket for the session
-        AuthClient = Authentication(apikey)
+        AuthClient = UmlsAuthentication(apikey)
         tgt = AuthClient.gettgt()
         pageNumber=0
 
@@ -159,7 +166,6 @@ def search_term_in_umls_api(search_string):
                     print("Source Vocabulary: " + result["rootSource"])
                 except:
                     NameError
-                
                 try:
                     print("uri: " + result["uri"])
                     # Troncate after /CUI/ to get ID
@@ -167,7 +173,6 @@ def search_term_in_umls_api(search_string):
                     return result["uri"][result["uri"].find('/CUI/')+5:]
                 except:
                     NameError
-
             ##Either our search returned nothing, or we're at the end
             if jsonData["results"][0]["ui"] == "NONE":
                 break
