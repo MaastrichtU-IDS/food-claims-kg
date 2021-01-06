@@ -1,10 +1,11 @@
 #+ endpoint: https://graphdb.dumontierlab.com/repositories/FoodHealthClaimsKG
 #+ endpoint_in_url: False
-#+ summary: List all references and statements in the EFSA opinion for all claims
-#+ description: Which references and statements have the EFSA opinions used for supporting a food health claim?
+#+ summary: Retrieve all references and statements in the EFSA opinion for all claims
+#+ description: List all references and statements mentioned the EFSA opinions to support a food health claim
 #+ tags:
-#+   - Get all claims and evidences
+#+   - Explore
 #+ method: GET
+#+ pagination: 100
 
 PREFIX mp: <http://purl.org/mp/>
 PREFIX fhcp: <http://www.w3id.org/foodhkg/props/>
