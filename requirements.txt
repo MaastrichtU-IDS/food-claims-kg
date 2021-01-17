@@ -1,6 +1,6 @@
 pandas
 rdflib
-xlrd
+openpyxl
 requests
 argparse
 pyquery
