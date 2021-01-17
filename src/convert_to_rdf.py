@@ -16,7 +16,7 @@ import io
 from io import BytesIO
 import hashlib
 import base64
-import json 
+import json
 import requests
 
 # To query UMLS API
@@ -43,6 +43,7 @@ PICO = Namespace("http://data.cochrane.org/ontologies/pico/")
 phenotypes_hash = {}
 umls_api_found_count = 0
 
+
 def convert_json(dataset):
     data_json = {'nodes': [], 'edges': []}
     for n in dataset.all_nodes():
@@ -66,29 +67,23 @@ def get_hash(s):
 
 def normalize(term):
     term = term.replace(
-        "http://www.informatics.jax.org/vocab/gene_ontology/GO:", "https://bio2rdf.org/go/")
+        "http://www.informatics.jax.org/vocab/gene_ontology/GO:", "http://identifiers.org/go/")
     return term.strip()
 
-
-def createPhenotypeRelTriples(dataset, hr_subj, pheno_uri, pheno_label):
-    dataset.add((pheno_uri, RDF['type'],  FOODHKG_CLS['Phenotype']))
-    dataset.add((pheno_uri, RDFS['label'],  Literal(pheno_label)))
-    dataset.add((hr_subj, FOODHKG_PROPS['hasPhenotype'],  pheno_uri))
-    phenotypes_hash[get_phenotype_curie(pheno_uri)] = { 'uri': pheno_uri, 'label': pheno_label }
-    return dataset
 
 def get_phenotype_curie(phenotype_uri):
     """Extract Phenotypes CURIE from the URI
     """
     if '/MEDDRA/' in phenotype_uri:
-        phenotype_id = phenotype_uri.split("/MEDDRA/",1)[1] 
+        phenotype_id = phenotype_uri.split("/MEDDRA/", 1)[1]
         return 'MEDDRA:' + phenotype_id
     if '/HP:' in phenotype_uri:
-        phenotype_id = phenotype_uri.split("/HP:",1)[1]
+        phenotype_id = phenotype_uri.split("/HP:", 1)[1]
         return 'HP:' + phenotype_id
     # if '/GO:' in phenotype_uri:
     #     phenotype_id = phenotype_uri.split("/GO:",1)[1]
     #     return 'GO:' + phenotype_id
+
 
 def add_umls_mappings():
     """This function will add owl:sameAs mappings to the UMLS. 
@@ -96,11 +91,12 @@ def add_umls_mappings():
     If we dont find a UMLS identifier as preferred ID 
     Then we query the UMLS API using the labels to find UMLS id
     """
-    print(str(len(phenotypes_hash.keys())) + ' MEDDRA and HP identifiers to resolve to UMLS')
+    print(str(len(phenotypes_hash.keys())) +
+          ' MEDDRA and HP identifiers to resolve to UMLS')
     # Resolve CURIEs to UMLS using Translator NodeNormalization
     resolve_curies = requests.get('https://nodenormalization-sri.renci.org/get_normalized_nodes',
-                        params={'curie': phenotypes_hash.keys()})
-    
+                                  params={'curie': phenotypes_hash.keys()})
+
     # Query OpenPredict API with OMIM IDs
     resp = resolve_curies.json()
     print(resp)
@@ -112,20 +108,25 @@ def add_umls_mappings():
             # print('Got a match for ' + resolve_id + ' => ' + ids['id']['identifier'])
             # print(ids)
             # Create owl:sameAs to UMLS
-            dataset.add((URIRef(phenotypes_hash[resolve_id]['uri']), 
-                        OWL['sameAs'], UMLS[ids['id']['identifier'].replace('UMLS:', '')]))
+            dataset.add((URIRef(phenotypes_hash[resolve_id]['uri']),
+                         OWL['sameAs'], UMLS[ids['id']['identifier'].replace('UMLS:', '')]))
         else:
-            print('\nNo match for ' + resolve_id + ' in Translator API, trying UMLS API with label: ' + phenotypes_hash[resolve_id]['label'])
-            umls_id = search_term_in_umls_api(phenotypes_hash[resolve_id]['label'])
+            print('\nNo match for ' + resolve_id +
+                  ' in Translator API, trying UMLS API with label: ' + phenotypes_hash[resolve_id]['label'])
+            umls_id = search_term_in_umls_api(
+                phenotypes_hash[resolve_id]['label'])
             print("URI found with UMLS API:")
             print(umls_id)
             if umls_id:
                 umls_api_found_count += 1
-                dataset.add((URIRef(phenotypes_hash[resolve_id]['uri']), 
-                            OWL['sameAs'], UMLS[umls_id]))
+                dataset.add((URIRef(phenotypes_hash[resolve_id]['uri']),
+                             OWL['sameAs'], UMLS[umls_id]))
 
-    print(str(matchCount) + ' matches to UMLS on ' + str(len(phenotypes_hash.keys())) + ' id searched in Translator API')
-    print(str(umls_api_found_count) + ' matches to UMLS on ' + str(len(phenotypes_hash.keys())) + ' id searched with UMLS API')
+    print(str(matchCount) + ' matches to UMLS on ' +
+          str(len(phenotypes_hash.keys())) + ' id searched in Translator API')
+    print(str(umls_api_found_count) + ' matches to UMLS on ' +
+          str(len(phenotypes_hash.keys())) + ' id searched with UMLS API')
+
 
 def search_term_in_umls_api(search_string):
     """This function will query the UMLS API to resolve labels. 
@@ -138,23 +139,24 @@ def search_term_in_umls_api(search_string):
         version = 'current'
         uri = "https://uts-ws.nlm.nih.gov"
         content_endpoint = "/rest/search/"+version
-        ##get at ticket granting ticket for the session
+        # get at ticket granting ticket for the session
         AuthClient = UmlsAuthentication(apikey)
         tgt = AuthClient.gettgt()
-        pageNumber=0
+        pageNumber = 0
 
         while True:
-            ##generate a new service ticket for each page if needed
+            # generate a new service ticket for each page if needed
             ticket = AuthClient.getst(tgt)
             pageNumber += 1
-            query = {'string':search_string,'ticket':ticket, 'pageNumber':pageNumber}
+            query = {'string': search_string,
+                     'ticket': ticket, 'pageNumber': pageNumber}
             #query['includeObsolete'] = 'true'
             #query['includeSuppressible'] = 'true'
             #query['returnIdType'] = "sourceConcept"
             #query['sabs'] = "SNOMEDCT_US"
-            r = requests.get(uri+content_endpoint,params=query)
+            r = requests.get(uri+content_endpoint, params=query)
             r.encoding = 'utf-8'
-            items  = json.loads(r.text)
+            items = json.loads(r.text)
             jsonData = items["result"]
             #print (json.dumps(items, indent = 4))
 
@@ -173,20 +175,11 @@ def search_term_in_umls_api(search_string):
                     return result["uri"][result["uri"].find('/CUI/')+5:]
                 except:
                     NameError
-            ##Either our search returned nothing, or we're at the end
+            # Either our search returned nothing, or we're at the end
             if jsonData["results"][0]["ui"] == "NONE":
                 break
     else:
         print("No UMLS APIKEY found: skipping UMLS API search. Set it as environment variable UMLS_APIKEY")
-
-def createFoodRelTriples(dataset, hr_subj, fooduri, food_type, food_label):
-    dataset.add((hr_subj, FOODHKG_PROPS['hasFood'],  fooduri))
-    food_type = food_type.strip()
-    if food_type != '':
-        dataset.add((fooduri, RDF['type'],
-                     FOODHKG_CLS[food_type]))
-        dataset.add((fooduri, RDFS['label'],  Literal(food_label)))
-    return dataset
 
 
 def createSupportingRefTriples(sdataset, supp_subj, suppref_subj, suppref_doi, ref_label):
@@ -199,6 +192,142 @@ def createSupportingRefTriples(sdataset, supp_subj, suppref_subj, suppref_doi, r
         dataset.add(
             (suppref_subj, DCAT['identifier'],  DOI[suppref_doi]))
     return dataset
+
+
+def createFoodProp(dataset, food_uri, food_label, food_type, food_source,
+                   rec_dose_unit, rec_dose_value, rec_freq):
+    """
+    Create triples related to food properties 
+    """
+    food_type = food_type.strip()
+    if food_type != '':
+        dataset.add((food_uri, RDF['type'],
+                     FOODHKG_CLS[food_type]))
+        dataset.add((food_uri, RDFS['label'],  Literal(food_label)))
+        dataset.add((food_uri, FOODHKG_PROPS['source'],  Literal(food_source)))
+        rec_dose_schedule_uri = FOODHKG_INST[get_hash(
+            food_source + rec_dose_unit + rec_dose_value + rec_freq)]
+        dataset.add(
+            (food_uri, SCHEMA['recommendedIntake'],  rec_dose_schedule_uri))
+        dataset.add(
+            (rec_dose_schedule_uri, SCHEMA['doseUnit'],  Literal(rec_dose_unit)))
+        dataset.add(
+            (rec_dose_schedule_uri, SCHEMA['doseValue'],  Literal(rec_dose_value)))
+        dataset.add(
+            (rec_dose_schedule_uri, SCHEMA['frequency'],  Literal(rec_freq)))
+
+
+def createFoodObject(dataset, row):
+    """
+    Create food URI and triples related to food properties
+    """
+    food_onto_term = str(row['Food Ontology Term'])
+    food_label = row['Food']
+    food_type = row['NEW Food Type']
+    food_amount = row['NEW Food Matrix']
+    print(food_amount)
+    rec_dose_unit = ''
+    rec_dose_value = ''
+    rec_freq = ''
+    food_source = ''
+    if food_amount.strip() != '':
+        fp_text = food_amount.strip().split('\n')
+        for fp in fp_text:
+            fp_tuple = fp.split(': ')
+            if len(fp_tuple) != 2:
+                continue
+            # print(tp_tuple)
+            key = fp_tuple[0]
+            value = fp_tuple[1].strip()
+            if key == 'Matrix':
+                food_source = value
+            if key == '- Unit':
+                rec_dose_unit = value
+                if 'day' in value:
+                    rec_freq = 'daily'
+                else:
+                    rec_freq = 'per meal'
+            if key == '- Value' or key == 'Value':
+                rec_dose_value = value
+
+    print(food_label, food_onto_term, food_type, food_source,
+          rec_dose_unit, rec_dose_value, rec_freq)
+
+    fooduri_list = []
+    # if there is no ontology term define for this food, create one
+    if food_onto_term == 'nan':
+        fooduri = FOODHKG_INST[get_hash(food_label)]
+        createFoodProp(dataset, fooduri, food_label, food_type, food_source,
+                       rec_dose_unit, rec_dose_value, rec_freq)
+        fooduri_list.append(fooduri)
+    else:
+        for fooduri in food_onto_term.split(';'):
+            fooduri = fooduri.strip()
+            if fooduri == '':
+                continue
+            fooduri = URIRef(fooduri)
+            createFoodProp(dataset, fooduri, food_label, food_type, food_source,
+                           rec_dose_unit, rec_dose_value, rec_freq)
+            fooduri_list.append(fooduri)
+    return fooduri_list
+
+
+def createTargetPopulationObject(dataset, row):
+    tp_onto_term = row['Target population ontology term']
+    if tp_onto_term == '':
+        return None
+
+    tp_prop = {}
+    tp_text = tp_onto_term.split('\n')
+    for tp in tp_text:
+        tp_tuple = tp.split(': ')
+        if len(tp_tuple) != 2:
+            continue
+        # print(tp_tuple)
+        key = tp_tuple[0]
+        value = tp_tuple[1].strip()
+        tp_prop[key] = value
+    tp_label = row['Target population']
+
+    if tp_onto_term == 'http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C18241':
+        targetPopUri = URIRef(
+            'http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C18241')
+    else:
+        targetPopUri = FOODHKG_INST[get_hash(tp_onto_term)]
+
+    dataset.add((targetPopUri, RDFS['label'], Literal(tp_label)))
+    for pred, obj in tp_prop.items():
+        if not obj.startswith('http'):
+            dataset.add((targetPopUri, PICO[pred], Literal(obj)))
+        else:
+            dataset.add((targetPopUri, FOODHKG_PROPS[pred], URIRef(obj)))
+
+    return targetPopUri
+
+
+def createPhenotypeObject(dataset, pheno_onto_term, pheno_label):
+    if str(pheno_onto_term) == 'nan':
+        pheno_uri = FOODHKG_INST[get_hash(pheno_label)]
+    else:
+        for pheno_uri in pheno_onto_term.split(';'):
+            pheno_uri = pheno_uri.strip()
+            if pheno_uri == '':
+                continue
+            # pheno_uri = normalize(pheno_uri)
+            pheno_uri = URIRef(pheno_uri)
+    dataset.add((pheno_uri, RDF['type'],  FOODHKG_CLS['Phenotype']))
+    dataset.add((pheno_uri, RDFS['label'],  Literal(pheno_label)))
+
+    phenotypes_hash[get_phenotype_curie(pheno_uri)] = {
+        'uri': pheno_uri, 'label': pheno_label}
+    return pheno_uri
+
+
+def createHealthEffectObject(dataset, effect_type):
+    hr_type = FOODHKG_INST[get_hash(effect_type)]
+    dataset.add((hr_type, RDF['type'],  FOODHKG_CLS['FoodHealthEffect']))
+    dataset.add((hr_type, RDFS['label'],  Literal(effect_type)))
+    return hr_type
 
 
 def turn_into_mp(row, dataset):
@@ -231,61 +360,29 @@ def turn_into_mp(row, dataset):
     # dataset.add((np_subj, NP['hasAssertion'],  hr_subj))
     dataset.add((hr_subj, RDFS['label'],  Literal(row['Health relationship'])))
     # sub type of food health effect/categorization
-    hr_type = FOODHKG_INST[get_hash(row['Health relationship'])]
+
+    # create Health Effect object
+    effect_type = row['Relationship-effect']
+    print('Phenotype', row['Phenotype'], 'Effect', effect_type)
+    hr_type = createHealthEffectObject(dataset, effect_type)
     dataset.add((hr_subj, RDF['type'],  hr_type))
-    dataset.add((hr_type, RDF['type'],  FOODHKG_CLS['FoodHealthEffect']))
-    dataset.add((hr_type, RDFS['label'],  Literal(row['Health relationship'])))
 
-    if str(row['Phenotype Ontology Term']) == 'nan':
-        pheno_uri = FOODHKG_INST[get_hash(row['Phenotype'])]
-        dataset = createPhenotypeRelTriples(
-            dataset, hr_subj, pheno_uri, row['Phenotype'])
-    else:
-        for pheno_uri in row['Phenotype Ontology Term'].split(';'):
-            pheno_uri = pheno_uri.strip()
-            if pheno_uri == '':
-                continue
-            # pheno_uri = normalize(pheno_uri)
-            pheno_uri = URIRef(pheno_uri)
-            dataset = createPhenotypeRelTriples(
-                dataset, hr_subj, pheno_uri, row['Phenotype'])
+    # create Phenotype object
+    ph_onto_term = row['Phenotype Ontology Term']
+    pheno_label = row['Phenotype']
+    pheno_uri = createPhenotypeObject(dataset, ph_onto_term, pheno_label)
+    dataset.add((hr_subj, FOODHKG_PROPS['hasPhenotype'],  pheno_uri))
 
-    if str(row['Food Ontology Term']) == 'nan':
-        fooduri = FOODHKG_INST[get_hash(row['Food'])]
-        dataset = createFoodRelTriples(
-            dataset, hr_subj, fooduri, row['Food Type'], row['Food'])
-    else:
-        for fooduri in row['Food Ontology Term'].split(';'):
-            fooduri = fooduri.strip()
-            if fooduri == '':
-                continue
-            fooduri = URIRef(fooduri)
-            dataset = createFoodRelTriples(
-                dataset, hr_subj, fooduri, row['Food Type'], row['Food'])
+    # create Food object
+    fooduri_list = createFoodObject(dataset, row)
+    # link food object to Health Effect object
+    for food_uri in fooduri_list:
+        dataset.add((hr_subj, FOODHKG_PROPS['hasFood'],  food_uri))
 
-    if row['Target population'] != '':
-        if row['Target population ontology term'] != '':
-            if row['Target population ontology term'] == 'http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C18241':
-                targetPopUri = URIRef(
-                    'http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C18241')
-            else:
-                targetPopUri = FOODHKG_INST[get_hash(
-                    row['Target population ontology term'])]
-                tp_text = row['Target population ontology term'].split('\n')
-                for tp in tp_text:
-                    tp_tuple = tp.split(': ')
-                    if len(tp_tuple) != 2:
-                        continue
-                    # print(tp_tuple)
-                    pred = tp_tuple[0]
-                    obj = tp_tuple[1].strip()
-                    if not obj.startswith('http'):
-                        dataset.add((targetPopUri, PICO[pred], Literal(obj)))
-                    else:
-                        dataset.add(
-                            (targetPopUri, FOODHKG_PROPS[pred], URIRef(obj)))
-        dataset.add((targetPopUri, RDFS['label'],
-                     Literal(row['Target population'])))
+    # create Target Population object
+    targetPopUri = createTargetPopulationObject(dataset, row)
+    # link Target Population object to Health Effect object
+    if targetPopUri != None:
         dataset.add(
             (hr_subj, FOODHKG_PROPS['hasTargetPopulation'],  targetPopUri))
 
