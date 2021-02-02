@@ -216,7 +216,7 @@ def createFoodProp(dataset, food_uri, food_label, food_type, food_source,
             hash_text += str(rec_freq)
 
         rec_dose_schedule_uri = FOODHKG_INST[get_hash(hash_text)]
-
+        #print(rec_dose_unit, '----', rec_dose_value, '----', rec_freq)
         dataset.add(
             (food_uri, SCHEMA['recommendedIntake'],  rec_dose_schedule_uri))
         dataset.add(
@@ -228,47 +228,19 @@ def createFoodProp(dataset, food_uri, food_label, food_type, food_source,
             dataset.add(
                 (rec_dose_schedule_uri, SCHEMA['doseValue'],  Literal(rec_dose_value)))
         if str(rec_freq) != 'nan':
-            (rec_dose_schedule_uri, SCHEMA['frequency'],  Literal(rec_freq))
+            dataset.add(
+                (rec_dose_schedule_uri, SCHEMA['frequency'],  Literal(rec_freq)))
 
 
 def createFoodObject(dataset, row):
     """
     Create food URI and triples related to food properties
     """
-    # food_amount = row['NEW Food Matrix']
-    # print(food_amount)
-    # rec_dose_unit = ''
-    # rec_dose_value = ''
-    # rec_freq = ''
-    # food_source = ''
-    # if food_amount.strip() != '':
-    #     fp_text = food_amount.strip().split('\n')
-    #     for fp in fp_text:
-    #         fp_tuple = fp.split(': ')
-    #         if len(fp_tuple) != 2:
-    #             continue
-    #         # print(tp_tuple)
-    #         key = fp_tuple[0]
-    #         value = fp_tuple[1].strip()
-    #         if key == 'Matrix':
-    #             food_source = value
-    #         if key == '- Unit':
-    #             rec_dose_unit = value
-    #             if 'day' in value:
-    #                 rec_freq = 'daily'
-    #             else:
-    #                 rec_freq = 'per meal'
-    #         if key == '- Value' or key == 'Value':
-    #             rec_dose_value = value
-
-    # print(food_label, food_onto_term, food_type, food_source,
-    #       rec_dose_unit, rec_dose_value, rec_freq)
-
     food_onto_term = str(row['Food Ontology Term'])
     food_label = row['Food']
     food_type = row['NEW Food Type']
     food_amount = row['NEW Food Matrix']
-    food_source = food_amount.split('\n')[0].replace('Matrix', '')
+    food_source = food_amount.split('\n')[0].replace('Matrix:', '')
     dose_unit = row['Unit']
     dose_value = row['Value']
     dose_freq = row['Frequency']
@@ -319,6 +291,9 @@ def createTargetPopulationObject(dataset, row):
             sex = value
         elif key == 'condition':
             condition = value
+        else:
+            continue
+
         tp_prop[key] = value
 
     if tp_onto_term == 'http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C18241':
@@ -328,12 +303,12 @@ def createTargetPopulationObject(dataset, row):
         targetPopUri = FOODHKG_INST[get_hash(tp_onto_term)]
 
     dataset.add((targetPopUri, RDFS['label'], Literal(tp_label)))
-    print('Target Population', social_con, age, sex, condition)
+    #print('Target Population', social_con, age, sex, condition)
     for pred, obj in tp_prop.items():
         if not obj.startswith('http'):
             dataset.add((targetPopUri, PICO[pred], Literal(obj)))
         else:
-            dataset.add((targetPopUri, FOODHKG_PROPS[pred], URIRef(obj)))
+            dataset.add((targetPopUri, PICO[pred], URIRef(obj)))
 
     return targetPopUri
 
@@ -467,6 +442,6 @@ if __name__ == '__main__':
     for index, row in df.iterrows():
         if row['Finished?'] == 'Finished':
             dataset = turn_into_mp(row, dataset)
-    # add_umls_mappings()
+    add_umls_mappings()
 
     dataset.serialize('data/output/food_health_kg.ttl', format='turtle')
