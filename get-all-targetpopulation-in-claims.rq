@@ -1,0 +1,43 @@
+#+ endpoint: https://graphdb.dumontierlab.com/repositories/FoodHealthClaimsKG
+#+ endpoint_in_url: False
+#+ summary: Retrieve all target population in the EFSA opinion for all claims
+#+ description: List all target population mentioned the claims the EFSA opinions 
+#+ tags:
+#+   - Explore
+#+ method: GET
+#+ pagination: 100
+
+PREFIX mp: <http://purl.org/mp/>
+PREFIX fhcp: <http://www.w3id.org/foodhkg/props/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX sc: <http://schema.org/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX pico: <http://data.cochrane.org/ontologies/pico/>
+SELECT ?claim_label ?tp_label ?social_context ?age ?sex ?condition
+WHERE {
+    ?mp mp:argues  ?claim .
+    ?claim rdfs:label ?claim_label .
+    ?mp mp:represents ?hfe .
+    ?hfe rdf:type ?hfe_type .
+    ?hfe rdfs:label ?hfe_label .
+	?hfe fhcp:hasTargetPopulation ?tp .
+    ?tp rdfs:label ?tp_label .
+    OPTIONAL{
+    ?tp pico:socialContext ?social_context .
+    }
+    OPTIONAL{
+    ?tp pico:age ?age .
+    }
+    OPTIONAL{
+    ?tp pico:sex ?sex .
+    }
+    OPTIONAL{
+    ?tp fhcp:condition ?condition .
+    }
+}
+
+
+
+
+

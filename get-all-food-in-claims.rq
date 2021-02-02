@@ -12,7 +12,7 @@ PREFIX fhcp: <http://www.w3id.org/foodhkg/props/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX sc: <http://schema.org/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-SELECT ?claim_label ?food ?food_name ?food_type ?food_source ?value  ?unit  ?frequency 
+SELECT DISTINCT ?claim_label ?food ?food_name ?food_type ?food_source ?unit ?value ?frequency 
 WHERE {
     ?mp mp:argues  ?claim .
     ?claim rdfs:label ?claim_label .
@@ -20,14 +20,14 @@ WHERE {
     ?hfe fhcp:hasPhenotype ?pheno .
     ?hfe fhcp:hasFood ?food .
     ?food rdfs:label ?food_name .
-     ?food fhcp:source ?food_source .
+    ?food fhcp:source ?food_source .
     ?food rdf:type ?food_type .
-    ?food sc:recommendedIntake ?rec_intake .
+	?food sc:recommendedIntake ?rec_intake . 
     ?rec_intake sc:doseUnit ?unit .
     ?rec_intake sc:doseValue ?value . 
-    ?rec_intake sc:frequency ?frequency . 
-    ?food rdfs:label ?food_label .
+    ?rec_intake sc:frequency ?frequency .
 }
+
 
 
 
