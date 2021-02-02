@@ -228,7 +228,7 @@ def createFoodProp(dataset, food_uri, food_label, food_type, food_source,
             dataset.add(
                 (rec_dose_schedule_uri, SCHEMA['doseValue'],  Literal(rec_dose_value)))
         if str(rec_freq) != 'nan':
-                (rec_dose_schedule_uri, SCHEMA['frequency'],  Literal(rec_freq)))
+            (rec_dose_schedule_uri, SCHEMA['frequency'],  Literal(rec_freq))
 
 
 def createFoodObject(dataset, row):
