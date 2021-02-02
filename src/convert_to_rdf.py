@@ -86,9 +86,9 @@ def get_phenotype_curie(phenotype_uri):
 
 
 def add_umls_mappings():
-    """This function will add owl:sameAs mappings to the UMLS. 
+    """This function will add owl:sameAs mappings to the UMLS.
     It first try using the Translator NodeNormalization API
-    If we dont find a UMLS identifier as preferred ID 
+    If we dont find a UMLS identifier as preferred ID
     Then we query the UMLS API using the labels to find UMLS id
     """
     print(str(len(phenotypes_hash.keys())) +
@@ -129,7 +129,7 @@ def add_umls_mappings():
 
 
 def search_term_in_umls_api(search_string):
-    """This function will query the UMLS API to resolve labels. 
+    """This function will query the UMLS API to resolve labels.
     It uses the umls_authentication.py file
     """
     apikey = os.environ['UMLS_APIKEY']
@@ -150,15 +150,15 @@ def search_term_in_umls_api(search_string):
             pageNumber += 1
             query = {'string': search_string,
                      'ticket': ticket, 'pageNumber': pageNumber}
-            #query['includeObsolete'] = 'true'
-            #query['includeSuppressible'] = 'true'
-            #query['returnIdType'] = "sourceConcept"
-            #query['sabs'] = "SNOMEDCT_US"
+            # query['includeObsolete'] = 'true'
+            # query['includeSuppressible'] = 'true'
+            # query['returnIdType'] = "sourceConcept"
+            # query['sabs'] = "SNOMEDCT_US"
             r = requests.get(uri+content_endpoint, params=query)
             r.encoding = 'utf-8'
             items = json.loads(r.text)
             jsonData = items["result"]
-            #print (json.dumps(items, indent = 4))
+            # print (json.dumps(items, indent = 4))
 
             print("Results for page " + str(pageNumber))
             for result in jsonData["results"]:
@@ -197,7 +197,7 @@ def createSupportingRefTriples(sdataset, supp_subj, suppref_subj, suppref_doi, r
 def createFoodProp(dataset, food_uri, food_label, food_type, food_source,
                    rec_dose_unit, rec_dose_value, rec_freq):
     """
-    Create triples related to food properties 
+    Create triples related to food properties
     """
     food_type = food_type.strip()
     if food_type != '':
@@ -205,60 +205,79 @@ def createFoodProp(dataset, food_uri, food_label, food_type, food_source,
                      FOODHKG_CLS[food_type]))
         dataset.add((food_uri, RDFS['label'],  Literal(food_label)))
         dataset.add((food_uri, FOODHKG_PROPS['source'],  Literal(food_source)))
-        rec_dose_schedule_uri = FOODHKG_INST[get_hash(
-            food_source + rec_dose_unit + rec_dose_value + rec_freq)]
+        hash_text = ''
+        if str(food_source) != 'nan':
+            hash_text += str(food_source)
+        if str(rec_dose_unit) != 'nan':
+            hash_text += str(rec_dose_unit)
+        if str(rec_dose_value) != 'nan':
+            hash_text += str(rec_dose_value)
+        if str(rec_freq) != 'nan':
+            hash_text += str(rec_freq)
+
+        rec_dose_schedule_uri = FOODHKG_INST[get_hash(hash_text)]
+
         dataset.add(
             (food_uri, SCHEMA['recommendedIntake'],  rec_dose_schedule_uri))
         dataset.add(
-            (rec_dose_schedule_uri, SCHEMA['doseUnit'],  Literal(rec_dose_unit)))
-        dataset.add(
-            (rec_dose_schedule_uri, SCHEMA['doseValue'],  Literal(rec_dose_value)))
-        dataset.add(
-            (rec_dose_schedule_uri, SCHEMA['frequency'],  Literal(rec_freq)))
+            (rec_dose_schedule_uri, RDF['type'],  SCHEMA['DoseSchedule']))
+        if str(rec_dose_unit) != 'nan':
+            dataset.add(
+                (rec_dose_schedule_uri, SCHEMA['doseUnit'],  Literal(rec_dose_unit)))
+        if str(rec_dose_value) != 'nan':
+            dataset.add(
+                (rec_dose_schedule_uri, SCHEMA['doseValue'],  Literal(rec_dose_value)))
+        if str(rec_freq) != 'nan':
+                (rec_dose_schedule_uri, SCHEMA['frequency'],  Literal(rec_freq)))
 
 
 def createFoodObject(dataset, row):
     """
     Create food URI and triples related to food properties
     """
+    # food_amount = row['NEW Food Matrix']
+    # print(food_amount)
+    # rec_dose_unit = ''
+    # rec_dose_value = ''
+    # rec_freq = ''
+    # food_source = ''
+    # if food_amount.strip() != '':
+    #     fp_text = food_amount.strip().split('\n')
+    #     for fp in fp_text:
+    #         fp_tuple = fp.split(': ')
+    #         if len(fp_tuple) != 2:
+    #             continue
+    #         # print(tp_tuple)
+    #         key = fp_tuple[0]
+    #         value = fp_tuple[1].strip()
+    #         if key == 'Matrix':
+    #             food_source = value
+    #         if key == '- Unit':
+    #             rec_dose_unit = value
+    #             if 'day' in value:
+    #                 rec_freq = 'daily'
+    #             else:
+    #                 rec_freq = 'per meal'
+    #         if key == '- Value' or key == 'Value':
+    #             rec_dose_value = value
+
+    # print(food_label, food_onto_term, food_type, food_source,
+    #       rec_dose_unit, rec_dose_value, rec_freq)
+
     food_onto_term = str(row['Food Ontology Term'])
     food_label = row['Food']
     food_type = row['NEW Food Type']
     food_amount = row['NEW Food Matrix']
-    print(food_amount)
-    rec_dose_unit = ''
-    rec_dose_value = ''
-    rec_freq = ''
-    food_source = ''
-    if food_amount.strip() != '':
-        fp_text = food_amount.strip().split('\n')
-        for fp in fp_text:
-            fp_tuple = fp.split(': ')
-            if len(fp_tuple) != 2:
-                continue
-            # print(tp_tuple)
-            key = fp_tuple[0]
-            value = fp_tuple[1].strip()
-            if key == 'Matrix':
-                food_source = value
-            if key == '- Unit':
-                rec_dose_unit = value
-                if 'day' in value:
-                    rec_freq = 'daily'
-                else:
-                    rec_freq = 'per meal'
-            if key == '- Value' or key == 'Value':
-                rec_dose_value = value
-
-    print(food_label, food_onto_term, food_type, food_source,
-          rec_dose_unit, rec_dose_value, rec_freq)
-
+    food_source = food_amount.split('\n')[0].replace('Matrix', '')
+    dose_unit = row['Unit']
+    dose_value = row['Value']
+    dose_freq = row['Frequency']
     fooduri_list = []
     # if there is no ontology term define for this food, create one
     if food_onto_term == 'nan':
         fooduri = FOODHKG_INST[get_hash(food_label)]
         createFoodProp(dataset, fooduri, food_label, food_type, food_source,
-                       rec_dose_unit, rec_dose_value, rec_freq)
+                       dose_unit, dose_value, dose_freq)
         fooduri_list.append(fooduri)
     else:
         for fooduri in food_onto_term.split(';'):
@@ -267,7 +286,7 @@ def createFoodObject(dataset, row):
                 continue
             fooduri = URIRef(fooduri)
             createFoodProp(dataset, fooduri, food_label, food_type, food_source,
-                           rec_dose_unit, rec_dose_value, rec_freq)
+                           dose_unit, dose_value, dose_freq)
             fooduri_list.append(fooduri)
     return fooduri_list
 
@@ -279,6 +298,12 @@ def createTargetPopulationObject(dataset, row):
 
     tp_prop = {}
     tp_text = tp_onto_term.split('\n')
+    social_con = ''
+    age = ''
+    sex = ''
+    condition = ''
+    tp_label = row['Target population']
+    print(tp_text, tp_label)
     for tp in tp_text:
         tp_tuple = tp.split(': ')
         if len(tp_tuple) != 2:
@@ -286,8 +311,15 @@ def createTargetPopulationObject(dataset, row):
         # print(tp_tuple)
         key = tp_tuple[0]
         value = tp_tuple[1].strip()
+        if key == 'socialContext':
+            social_con = value
+        elif key == 'age':
+            age = value
+        elif key == 'sex':
+            sex = value
+        elif key == 'condition':
+            condition = value
         tp_prop[key] = value
-    tp_label = row['Target population']
 
     if tp_onto_term == 'http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C18241':
         targetPopUri = URIRef(
@@ -296,6 +328,7 @@ def createTargetPopulationObject(dataset, row):
         targetPopUri = FOODHKG_INST[get_hash(tp_onto_term)]
 
     dataset.add((targetPopUri, RDFS['label'], Literal(tp_label)))
+    print('Target Population', social_con, age, sex, condition)
     for pred, obj in tp_prop.items():
         if not obj.startswith('http'):
             dataset.add((targetPopUri, PICO[pred], Literal(obj)))
@@ -434,6 +467,6 @@ if __name__ == '__main__':
     for index, row in df.iterrows():
         if row['Finished?'] == 'Finished':
             dataset = turn_into_mp(row, dataset)
-    add_umls_mappings()
+    # add_umls_mappings()
 
     dataset.serialize('data/output/food_health_kg.ttl', format='turtle')
