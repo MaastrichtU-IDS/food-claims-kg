@@ -2,6 +2,8 @@
 
 A RDF knowledge graph for food health claims.
 
+![Semantic Data Model](food-claims-kg.jpg)
+
 The easiest way to explore the knowledge graph is to use the various API calls at http://grlc.io/api-git/MaastrichtU-IDS/food-claims-kg 
 
 The SPARQL endpoint is accessible at https://graphdb.dumontierlab.com/repositories/FoodHealthClaimsKG
@@ -46,6 +48,13 @@ Run the conversion script:
 
 ```bash
 python3 src/convert_to_rdf.py
+```
+
+
+Create metadata (HCLS statistics)
+
+```bash
+d2s metadata analyze https://graphdb.dumontierlab.com/repositories/FoodHealthClaimsKG -o metadata.ttl 
 ```
 
 ## Examples of grlc API
