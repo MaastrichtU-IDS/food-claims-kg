@@ -2,7 +2,7 @@
 
 A RDF knowledge graph for food health claims.
 
-![Semantic Data Model](SIO for food health claim.png)
+![Semantic Data Model](SIO_for_food_health_claim.png)
 
 The easiest way to explore the knowledge graph is to use the various API calls at http://grlc.io/api-git/MaastrichtU-IDS/food-claims-kg 
 
