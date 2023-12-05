@@ -8,6 +8,7 @@ from __future__ import print_function
 from rdflib import Graph, URIRef, Literal, RDF, ConjunctiveGraph
 from rdflib import Namespace
 from rdflib import Dataset
+from rdflib import BNode
 
 import pandas as pd
 import os
@@ -39,6 +40,7 @@ FOODHKG_PROPS = Namespace("http://www.w3id.org/foodhkg/props/")
 FOODHKG_CLS = Namespace("http://www.w3id.org/foodhkg/classes/")
 DOI = Namespace("http://doi.org/")
 PICO = Namespace("http://data.cochrane.org/ontologies/pico/")
+SIO = Namespace("http://semanticscience.org/resource/SIO_")
 
 phenotypes_hash = {}
 umls_api_found_count = 0
@@ -183,9 +185,8 @@ def search_term_in_umls_api(search_string):
 
 
 def createSupportingRefTriples(sdataset, supp_subj, suppref_subj, suppref_doi, ref_label):
-    pred = MP['supports']
-    dataset.add((suppref_subj, pred, supp_subj))
-    dataset.add((suppref_subj, RDF['type'], MP['Reference']))
+    dataset.add((suppref_subj, SIO['000277'], supp_subj)) #cites
+    dataset.add((suppref_subj, RDF['type'], SIO['00176'])) # reference
     dataset.add((suppref_subj, RDFS['label'],  Literal(ref_label)))
     if "no DOI" not in suppref_doi:
         suppref_doi = suppref_doi.replace(' ', '')
@@ -202,9 +203,9 @@ def createFoodProp(dataset, food_uri, food_label, food_type, food_source,
     food_type = food_type.strip()
     if food_type != '':
         dataset.add((food_uri, RDF['type'],
-                     FOODHKG_CLS[food_type]))
+                     SIO['011126'])) # chemical substance
         dataset.add((food_uri, RDFS['label'],  Literal(food_label)))
-        dataset.add((food_uri, FOODHKG_PROPS['source'],  Literal(food_source)))
+        dataset.add((food_uri, SIO['000028'],  Literal(food_source))) # # has part of food
         hash_text = ''
         if str(food_source) != 'nan':
             hash_text += str(food_source)
@@ -215,21 +216,24 @@ def createFoodProp(dataset, food_uri, food_label, food_type, food_source,
         if str(rec_freq) != 'nan':
             hash_text += str(rec_freq)
 
-        rec_dose_schedule_uri = FOODHKG_INST[get_hash(hash_text)]
+        rec_dose_uri = FOODHKG_INST[get_hash(hash_text)]
         #print(rec_dose_unit, '----', rec_dose_value, '----', rec_freq)
         dataset.add(
-            (food_uri, SCHEMA['recommendedIntake'],  rec_dose_schedule_uri))
+            (food_uri, SIO['000008'],  rec_dose_uri)) # has attribute
         dataset.add(
-            (rec_dose_schedule_uri, RDF['type'],  SCHEMA['DoseSchedule']))
+            (rec_dose_uri, RDF['type'],  SIO['001019'])) # type of Dose
         if str(rec_dose_unit) != 'nan':
+            bn = BNode()
             dataset.add(
-                (rec_dose_schedule_uri, SCHEMA['doseUnit'],  Literal(rec_dose_unit)))
+                (rec_dose_uri, SIO['000221'],  bn)) # has unit
+            dataset.add(
+                (bn, SIO['000300'],  Literal(rec_dose_unit))) # has Value
         if str(rec_dose_value) != 'nan':
             dataset.add(
-                (rec_dose_schedule_uri, SCHEMA['doseValue'],  Literal(rec_dose_value)))
+                (rec_dose_uri, SIO['000300'],  Literal(rec_dose_value))) # has Value
         if str(rec_freq) != 'nan':
             dataset.add(
-                (rec_dose_schedule_uri, SCHEMA['frequency'],  Literal(rec_freq)))
+                (food_uri, SIO['000900'],  Literal(rec_freq))) # has frequency
 
 
 def createFoodObject(dataset, row):
@@ -305,11 +309,10 @@ def createTargetPopulationObject(dataset, row):
     dataset.add((targetPopUri, RDFS['label'], Literal(tp_label)))
     #print('Target Population', social_con, age, sex, condition)
     for pred, obj in tp_prop.items():
-        if not obj.startswith('http'):
-            dataset.add((targetPopUri, PICO[pred], Literal(obj)))
+        if  obj.startswith('http'):
+            dataset.add((targetPopUri, SIO['000217'], URIRef(obj))) # has quality
         else:
-            dataset.add((targetPopUri, PICO[pred], URIRef(obj)))
-
+             dataset.add((targetPopUri, SIO['000217'], Literal(obj))) # has quality
     return targetPopUri
 
 
@@ -340,12 +343,14 @@ def createHealthEffectObject(dataset, effect_type):
 
 def turn_into_mp(row, dataset):
     # Claim
+    dataset.bind("sio", SIO)
     claim_subj = FOODHKG_INST[get_hash(row['Claim'])]
     pred = RDF['type']
     obj = URIRef('http://purl.org/mp/Claim')
     dataset.add((claim_subj, pred, obj))
     # define the claim label
     dataset.add((claim_subj, RDFS['label'],  Literal(row['Claim'])))
+    print (row['EFSA Opinion Reference'])
     opinion_subj = FOODHKG_INST[get_hash(row['EFSA Opinion Reference'])]
     dataset.add((opinion_subj, FOODHKG_PROPS['advises'],  claim_subj))
     dataset.add((opinion_subj, RDF['type'],  FOODHKG_CLS['Opinion']))
@@ -354,19 +359,20 @@ def turn_into_mp(row, dataset):
     # each ESFA opinion is a MP
     mp_subj = FOODHKG_INST[get_hash(
         row['EFSA Opinion Reference']+row['Claim'])]
-    dataset.add((mp_subj, RDF['type'], MP['Micropublication']))
+    dataset.add((mp_subj, RDF['type'], SIO['001183'])) # statement
     # each MP argues a claim
-    dataset.add((mp_subj, MP['argues'],  claim_subj))
+    dataset.add((mp_subj, RDFS['label'],  claim_subj)) 
 
     # to define fine-granular facts (triples facts) using Nanopublication (NP)
     hr_subj = FOODHKG_INST[get_hash(
         row['Health relationship']+row['Phenotype']+row['Food'])]
-    dataset.add((mp_subj, MP['represents'],  hr_subj))
+    dataset.add((hr_subj, SIO['000563'],  mp_subj))  # describes
     # np_subj = FOODHKG_INST[get_hash(row['Health relationship']+row['EFSA Opinion Reference'])]
     # dataset.add((np_subj, RDF['type'],  NP['Nanopublication']))
     # Assertions for NP
     # dataset.add((np_subj, NP['hasAssertion'],  hr_subj))
     dataset.add((hr_subj, RDFS['label'],  Literal(row['Health relationship'])))
+    dataset.add((hr_subj, RDF['type'],  SIO['000897'])) # association
     # sub type of food health effect/categorization
 
     # create Health Effect object
@@ -379,20 +385,21 @@ def turn_into_mp(row, dataset):
     ph_onto_term = row['Phenotype Ontology Term']
     pheno_label = row['Phenotype']
     pheno_uri = createPhenotypeObject(dataset, ph_onto_term, pheno_label)
-    dataset.add((hr_subj, FOODHKG_PROPS['hasPhenotype'],  pheno_uri))
+    dataset.add((hr_subj, RDF['type'],  SIO['010056'])) # phenotype
+    dataset.add((hr_subj, SIO['000628'],  pheno_uri)) # refers to
 
     # create Food object
     fooduri_list = createFoodObject(dataset, row)
     # link food object to Health Effect object
     for food_uri in fooduri_list:
-        dataset.add((hr_subj, FOODHKG_PROPS['hasFood'],  food_uri))
+        dataset.add((hr_subj, SIO['000628'],  food_uri)) # refers to
 
     # create Target Population object
     targetPopUri = createTargetPopulationObject(dataset, row)
     # link Target Population object to Health Effect object
     if targetPopUri != None:
         dataset.add(
-            (hr_subj, FOODHKG_PROPS['hasTargetPopulation'],  targetPopUri))
+            (pheno_uri, SIO['000011'],  targetPopUri)) # is attribute of 
 
     for i in range(1, 9):
         if str(row[f'Supporting Evidence Text {i}']) == 'nan':
@@ -400,11 +407,11 @@ def turn_into_mp(row, dataset):
         supp_subj = FOODHKG_INST[get_hash(
             row[f'Supporting Evidence Text {i}'])]
 
-        pred = MP['supports']
+        pred = SIO['000773'] # is evidence for
         # statemtent supports the claim
         dataset.add((supp_subj, pred,  claim_subj))
         # is type of Statement
-        dataset.add((supp_subj, RDF['type'], MP['Statement']))
+        #dataset.add((supp_subj, RDF['type'], MP['Statement']))
         # label of Statement
         dataset.add((supp_subj, RDFS['label'],  Literal(
             row[f'Supporting Evidence Text {i}'])))
@@ -442,6 +449,6 @@ if __name__ == '__main__':
     for index, row in df.iterrows():
         if row['Finished?'] == 'Finished':
             dataset = turn_into_mp(row, dataset)
-    add_umls_mappings()
+    #add_umls_mappings()
 
-    dataset.serialize('data/output/food_health_kg.ttl', format='turtle')
+    dataset.serialize('data/food_health_kg.ttl', format='turtle')
