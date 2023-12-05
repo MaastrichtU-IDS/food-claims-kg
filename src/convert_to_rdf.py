@@ -186,7 +186,7 @@ def search_term_in_umls_api(search_string):
 
 def createSupportingRefTriples(sdataset, supp_subj, suppref_subj, suppref_doi, ref_label):
     dataset.add((suppref_subj, SIO['000277'], supp_subj)) #cites
-    dataset.add((suppref_subj, RDF['type'], SIO['00176'])) # reference
+    dataset.add((suppref_subj, RDF['type'], SIO['000176'])) # reference
     dataset.add((suppref_subj, RDFS['label'],  Literal(ref_label)))
     if "no DOI" not in suppref_doi:
         suppref_doi = suppref_doi.replace(' ', '')
@@ -326,7 +326,7 @@ def createPhenotypeObject(dataset, pheno_onto_term, pheno_label):
                 continue
             # pheno_uri = normalize(pheno_uri)
             pheno_uri = URIRef(pheno_uri)
-    dataset.add((pheno_uri, RDF['type'],  FOODHKG_CLS['Phenotype']))
+    dataset.add((pheno_uri, RDF['type'],  SIO['Phenotype']))
     dataset.add((pheno_uri, RDFS['label'],  Literal(pheno_label)))
 
     phenotypes_hash[get_phenotype_curie(pheno_uri)] = {
@@ -345,9 +345,8 @@ def turn_into_mp(row, dataset):
     # Claim
     dataset.bind("sio", SIO)
     claim_subj = FOODHKG_INST[get_hash(row['Claim'])]
-    pred = RDF['type']
-    obj = URIRef('http://purl.org/mp/Claim')
-    dataset.add((claim_subj, pred, obj))
+    #obj = URIRef('http://purl.org/mp/Claim')
+    dataset.add((claim_subj, RDF['type'], SIO['000897']))
     # define the claim label
     dataset.add((claim_subj, RDFS['label'],  Literal(row['Claim'])))
     print (row['EFSA Opinion Reference'])
@@ -361,38 +360,41 @@ def turn_into_mp(row, dataset):
         row['EFSA Opinion Reference']+row['Claim'])]
     dataset.add((mp_subj, RDF['type'], SIO['001183'])) # statement
     # each MP argues a claim
-    dataset.add((mp_subj, RDFS['label'],  claim_subj)) 
+    dataset.add((mp_subj, SIO['000563'],  claim_subj))  # describes
 
     # to define fine-granular facts (triples facts) using Nanopublication (NP)
-    hr_subj = FOODHKG_INST[get_hash(
-        row['Health relationship']+row['Phenotype']+row['Food'])]
-    dataset.add((hr_subj, SIO['000563'],  mp_subj))  # describes
+    #hr_subj = FOODHKG_INST[get_hash(
+    #    row['Health relationship']+row['Phenotype']+row['Food'])]
+    #dataset.add((hr_subj, SIO['000563'],  mp_subj))  # describes
     # np_subj = FOODHKG_INST[get_hash(row['Health relationship']+row['EFSA Opinion Reference'])]
     # dataset.add((np_subj, RDF['type'],  NP['Nanopublication']))
     # Assertions for NP
     # dataset.add((np_subj, NP['hasAssertion'],  hr_subj))
-    dataset.add((hr_subj, RDFS['label'],  Literal(row['Health relationship'])))
-    dataset.add((hr_subj, RDF['type'],  SIO['000897'])) # association
+    #dataset.add((hr_subj, RDFS['label'],  Literal(row['Health relationship'])))
+    #dataset.add((hr_subj, RDF['type'],  SIO['000897'])) # association
     # sub type of food health effect/categorization
 
     # create Health Effect object
     effect_type = row['Relationship-effect']
     print('Phenotype', row['Phenotype'], 'Effect', effect_type)
     hr_type = createHealthEffectObject(dataset, effect_type)
-    dataset.add((hr_subj, RDF['type'],  hr_type))
+    dataset.add((claim_subj, RDF['type'],  hr_type))
 
     # create Phenotype object
     ph_onto_term = row['Phenotype Ontology Term']
     pheno_label = row['Phenotype']
     pheno_uri = createPhenotypeObject(dataset, ph_onto_term, pheno_label)
-    dataset.add((hr_subj, RDF['type'],  SIO['010056'])) # phenotype
-    dataset.add((hr_subj, SIO['000628'],  pheno_uri)) # refers to
+
+    bn = BNode()
+    
+    dataset.add((pheno_uri, RDF['type'],  SIO['010056'])) # phenotype
+    dataset.add((claim_subj, SIO['000628'],  pheno_uri)) # refers to
 
     # create Food object
     fooduri_list = createFoodObject(dataset, row)
     # link food object to Health Effect object
     for food_uri in fooduri_list:
-        dataset.add((hr_subj, SIO['000628'],  food_uri)) # refers to
+        dataset.add((claim_subj, SIO['000628'],  food_uri)) # refers to
 
     # create Target Population object
     targetPopUri = createTargetPopulationObject(dataset, row)
@@ -433,7 +435,7 @@ def turn_into_mp(row, dataset):
 
 
 if __name__ == '__main__':
-    df = pd.read_excel('data/food-claims-kg.xlsx',
+    df = pd.read_excel('output/food-claims-kg.xlsx',
                        sheet_name='13. Authorised')
 
     dataset = Dataset()
@@ -443,7 +445,7 @@ if __name__ == '__main__':
         if row['Status'] == 'Finished':
             dataset = turn_into_mp(row, dataset)
 
-    df = pd.read_excel('data/food-claims-kg.xlsx',
+    df = pd.read_excel('output/food-claims-kg.xlsx',
                        sheet_name='14. Authorised')
 
     for index, row in df.iterrows():
@@ -451,4 +453,4 @@ if __name__ == '__main__':
             dataset = turn_into_mp(row, dataset)
     #add_umls_mappings()
 
-    dataset.serialize('data/food_health_kg.ttl', format='turtle')
+    dataset.serialize('output/food_health_kg.ttl', format='turtle')
