@@ -27,7 +27,7 @@ WHERE {
 }
 ```
 
-> <a href="https://yasgui.triply.cc/#query=PREFIX mp%3A  PREFIX fhcp%3A  PREFIX rdfs%3A  SELECT  %3Fclaim %3Fclaim_label {    %3Fmp mp%3Aargues  %3Fclaim.    %3Fclaim rdfs%3Alabel %3Fclaim_label .    %3Fmp mp%3Arepresents %3Fhfe .    %3Fhfe fhcp%3AhasPhenotype %3Fpheno .    %3Fhfe fhcp%3AhasFood %3Ffood .    FILTER (%3Ffood %3D ) }&endpoint=https%3A%2F%2Fgraphdb.dumontierlab.com%2Frepositories%2FFoodHealthClaimsKG&requestMethod=POST&tabTitle=Query&headers={}&contentTypeConstruct=text%2Fturtle&contentTypeSelect=application%2Fsparql-results%2Bjson&outputFormat=table">Execute the query on YASGUI</a>
+> <a href="https://yasgui.triply.cc/#query=PREFIX%20mp%3A%20%3Chttp%3A%2F%2Fpurl.org%2Fmp%2F%3E%0APREFIX%20fhcp%3A%20%3Chttp%3A%2F%2Fwww.w3id.org%2Ffoodhkg%2Fprops%2F%3E%0APREFIX%20rdfs%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0ASELECT%20%20%3Fclaim%20%3Fclaim_label%0AWHERE%20%7B%0A%20%20%20%20%3Fmp%20mp%3Aargues%20%20%3Fclaim.%0A%20%20%20%20%3Fclaim%20rdfs%3Alabel%20%3Fclaim_label%20.%0A%20%20%20%20%3Fmp%20mp%3Arepresents%20%3Fhfe%20.%0A%20%20%20%20%3Fhfe%20fhcp%3AhasPhenotype%20%3Fpheno%20.%0A%20%20%20%20%3Fhfe%20fhcp%3AhasFood%20%3Ffood%20.%0A%20%20%20%20FILTER%20(%3Ffood%20%3D%20%3Chttps%3A%2F%2Ffoodb.ca%2Fcompounds%2FFDB003513%3E)%0A%7D&endpoint=https%3A%2F%2Fgraphdb.dumontierlab.com%2Frepositories%2FFoodHealthClaimsKG&requestMethod=POST&tabTitle=Query&headers=%7B%7D&contentTypeConstruct=text%2Fturtle&contentTypeSelect=application%2Fsparql-results%2Bjson&outputFormat=table">Execute the query on YASGUI</a>
 
 ### 2. What are the supporting statements about a food health claim?
 
