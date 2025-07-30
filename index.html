@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Food Health Claims Knowledge Graph</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <script type="application/ld+json">
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "dct": "http://purl.org/dc/terms/",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "void": "http://rdfs.org/ns/void#",
+    "mod": "https://w3id.org/mod#",
+    "adms": "http://www.w3.org/ns/adms#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+  },
+  "@graph": [
+    {
+      "@id": "http://www.w3id.org/foodhkg",
+      "@type": "schema:Dataset",
+      "schema:identifier": "https://github.com/MaastrichtU-IDS/food-claims-kg",
+      "schema:name": "Food Health Claims Knowledge Graph",
+      "schema:alternateName": "Food Claims Knowledge Graph",
+      "schema:termCode": "FHCKG",
+      "schema:description": "FoodKG is a structured knowledge graph curated from 260 authorised EU food health claims, covering ingredients, effects, target populations, and scientific evidence, designed to support personalised nutrition and health applications.",
+      "schema:url": { "@id": "https://github.com/MaastrichtU-IDS/food-claims-kg" },
+      "schema:relatedLink": { "@id": "https://docs.google.com/spreadsheets/d/1RWZ6AlGB8m7PO5kjsbbbeI4ETLwvKLOvkrzOpl8zAM8/edit?usp=sharing" },
+      "schema:creator": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0001-7769-4272",
+      "schema:name": "Remzi Çelebi"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0001-8381-1252",
+      "schema:name": "Ilse van Lier"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-6500-4649",
+      "schema:name": "Alie de Boer"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-4727-9435",
+      "schema:name": "Michel Dumontier"
+    }
+    ],
+      "schema:dateCreated": {
+        "@value": "2021-12-01T00:00:00Z",
+        "@type": "xsd:dateTime"
+      },
+      "schema:publisher": [
+        { "@type": "Organization",
+		"@id": "https://www.maastrichtuniversity.nl/research/institute-data-science" }
+      ],
+      "schema:funding": [
+        { "@id": "https://www.ufl.nl/en/" },
+        { "@id": "https://www.limburg.nl/" }
+      ],
+      "schema:dateModified": {
+        "@value": "2023-07-01T00:00:00Z",
+        "@type": "xsd:dateTime"
+      },
+      "schema:datePublished": {
+        "@value": "2023-07-01T00:00:00Z",
+        "@type": "xsd:dateTime"
+      },
+      "schema:maintainer": {
+        "@type": "schema:Person",
+        "schema:name": "Remzi Celebi",
+        "schema:email": "remzi.celebi@maastrichtuniversity.nl"
+      },
+      "schema:subjectOf": { "@id": "https://ceur-ws.org/Vol-3890/paper-24.pdf" },
+      "schema:image": [
+      {
+    "@type": "ImageObject",
+    "@id": "https://raw.githubusercontent.com/MaastrichtU-IDS/food-claims-kg/master/SIO_for_food_health_claim.png",
+    "contentUrl": "https://raw.githubusercontent.com/MaastrichtU-IDS/food-claims-kg/master/SIO_for_food_health_claim.png"
+       }
+      ],
+	  "schema:distribution":[ {
+        "@type": "schema:DataDownload",
+        "@id": "https://github.com/MaastrichtU-IDS/food-claims-kg/blob/master/output/food_health_kg.ttl"
+      },
+	  {
+        "@type": "schema:DataDownload",
+        "@id": "https://github.com/MaastrichtU-IDS/food-claims-kg/blob/master/output/catalog-v001.xml"
+      },
+	  {
+        "@type": "schema:DataDownload",
+        "@id": "https://github.com/MaastrichtU-IDS/food-claims-kg/blob/master/output/food-claims-kg.xlsx"
+      }
+	  ],
+      "schema:mainEntityOfPage": {
+        "@type": "schema:WebAPI",
+        "@id": "http://grlc.io/api-git/MaastrichtU-IDS/food-claims-kg"
+      },
+      "schema:contentURL": {
+        "@id": "https://graphdb.dumontierlab.com/repositories/FoodHealthClaimsKG"
+      },
+      "schema:version": "1.0",
+      "schema:license": { "@id": "https://opensource.org/licenses/MIT" },
+
+      "schema:keywords": "personalised nutrition, food health claim, knowledge graphs, FAIR data",
+      "schema:publication": [
+        { "@id": "https://ceur-ws.org/Vol-3890/paper-24.pdf" }
+      ],
+      "schema:inLanguage": [ "en" ],
+      "void:triples": 7842,
+      "dct:conformsTo": { "@id": "https://www.w3.org/TR/rdf11-concepts/" },
+      "mod:sampleQueries": { "@id": "http://grlc.io/api-git/MaastrichtU-IDS/food-claims-kg" },
+      "void:uriRegexPattern": "http://www.w3id.org/foodhkg/Instances/{id}",
+     "void:exampleResource": {
+     "dct:title": "Vitamin C Psychological Function Claim",
+     "dct:description": "Example claim stating that vitamin C contributes to normal psychological function.",
+     "dcat:mediaType": {
+    "@value": "text/turtle",
+    "@type": "xsd:string"
+  },
+  "adms:status": {
+    "@value": "stable",
+    "@type": "xsd:string"
+  },
+  "dcat:accessURL": {
+    "@id": "http://www.w3id.org/foodhkg/Instances/XUlPVZE8962HgzcThlA8FBKmhdiJjsVm3jnDU3B12KE"
+  }
+},
+      "dct:accessRights": { "@id": "http://publications.europa.eu/resource/authority/access-right/OPEN" },
+      "prov:hadPrimarySource": {
+        "@id": "https://ec.europa.eu/food/food-feed-portal/screen/health-claims/eu-register"
+      },
+      "void:uriSpace": { "@id": "http://www.w3id.org/foodhkg/Instances/" }
+    },
+{
+  "@id": "https://foodkg.org/linksets/meddra",
+  "@type": "void:Linkset",
+  "void:subjectsTarget": { "@id": "http://www.w3id.org/foodhkg" },
+  "void:target": { "@id": "http://purl.bioontology.org/ontology/MEDDRA" },
+  "void:triples": 50
+},
+{
+  "@id": "https://foodkg.org/linksets/go",
+  "@type": "void:Linkset",
+  "void:subjectsTarget": { "@id": "http://www.w3id.org/foodhkg" },
+  "void:target": { "@id": "http://www.informatics.jax.org/vocab/gene_ontology" },
+  "void:triples": 100
+},
+{
+  "@id": "https://foodkg.org/linksets/snomedct",
+  "@type": "void:Linkset",
+  "void:subjectsTarget": { "@id": "http://www.w3id.org/foodhkg" },
+  "void:target": { "@id": "http://purl.bioontology.org/ontology/SNOMEDCT" },
+  "void:triples": 200
+},
+{
+  "@id": "https://foodkg.org/linksets/foodb",
+  "@type": "void:Linkset",
+  "void:subjectsTarget": { "@id": "http://www.w3id.org/foodhkg" },
+  "void:target": { "@id": "https://foodb.ca" },
+  "void:triples": 1000
+}
+
+  ]
+}
+  </script>
+
+  <style>
+    body { font-family: sans-serif; padding: 2em; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background-color: #f0f0f0; }
+  </style>
+</head>
+<body>
+
+  <h1>Food Health Claims Knowledge Graph Metadata</h1>
+
+  <table>
+    <tr><th>Property</th><th>Value</th></tr>
+    <tr><td>Type</td><td>Dataset</td></tr>
+    <tr><td>Identifier</td><td><a href="https://github.com/MaastrichtU-IDS/food-claims-kg">https://github.com/MaastrichtU-IDS/food-claims-kg</a></td></tr>
+    <tr><td>Name</td><td>Food Health Claims Knowledge Graph</td></tr>
+    <tr><td>Alternate Name</td><td>Food Claims Knowledge Graph</td></tr>
+    <tr><td>Term Code</td><td>FHCKG</td></tr>
+    <tr><td>Description</td><td>FoodKG is a structured knowledge graph curated from 260 authorised EU food health claims, covering ingredients, effects, target populations, and scientific evidence, designed to support personalised nutrition and health applications.</td></tr>
+    <tr><td>URL</td><td><a href="https://github.com/MaastrichtU-IDS/food-claims-kg">GitHub Repository</a></td></tr>
+    <tr><td>Related Link</td><td><a href="https://docs.google.com/spreadsheets/d/1RWZ6AlGB8m7PO5kjsbbbeI4ETLwvKLOvkrzOpl8zAM8/edit?usp=sharing">Link to Google Sheet</a></td></tr>
+    <tr><td>Creators</td>
+      <td>
+        <ul>
+          <li><a href="https://orcid.org/0000-0001-7769-4272">Remzi Çelebi</a></li>
+          <li><a href="https://orcid.org/0000-0001-8381-1252">Ilse van Lier</a></li>
+          <li><a href="https://orcid.org/0000-0002-6500-4649">Alie de Boer</a></li>
+          <li><a href="https://orcid.org/0000-0003-4727-9435">Michel Dumontier</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr><td>Date Created</td><td>2021-12-01T00:00:00Z</td></tr>
+    <tr><td>Publisher</td><td><a href="https://www.maastrichtuniversity.nl/research/institute-data-science">Institute of Data Science, Maastricht University</a></td></tr>
+    <tr><td>Funding</td>
+      <td>
+        <ul>
+          <li><a href="https://www.ufl.nl/en/">SWOL</a></li>
+          <li><a href="https://www.limburg.nl/">The Dutch Province of Limburg</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr><td>Date Modified</td><td>2023-07-01T00:00:00Z</td></tr>
+    <tr><td>Date Published</td><td>2023-07-01T00:00:00Z</td></tr>
+    <tr><td>Maintainer</td>
+      <td>
+        Remzi Celebi<br>
+        <a href="mailto:remzi.celebi@maastrichtuniversity.nl">remzi.celebi@maastrichtuniversity.nl</a>
+      </td>
+    </tr>
+    <tr><td>Subject Of</td><td><a href="https://ceur-ws.org/Vol-3890/paper-24.pdf">Publication PDF</a></td></tr>
+<tr>
+  <td>Image</td>
+  <td>
+    <img src="https://raw.githubusercontent.com/MaastrichtU-IDS/food-claims-kg/master/SIO_for_food_health_claim.png" alt="SIO Diagram" style="max-width:100%;height:auto; margin-bottom: 1em;" />
+  </td>
+</tr>
+<tr>
+  <td>Distribution</td>
+  <td>
+    <ul>
+      <li><a href="https://github.com/MaastrichtU-IDS/food-claims-kg/blob/master/output/food_health_kg.ttl">food_health_kg.ttl</a></li>
+      <li><a href="https://github.com/MaastrichtU-IDS/food-claims-kg/blob/master/output/catalog-v001.xml">catalog-v001.xml</a></li>
+      <li><a href="https://github.com/MaastrichtU-IDS/food-claims-kg/blob/master/output/food-claims-kg.xlsx">food-claims-kg.xlsx</a></li>
+    </ul>
+  </td>
+</tr>
+
+    <tr><td>Main Entity of Page (API)</td><td><a href="http://grlc.io/api-git/MaastrichtU-IDS/food-claims-kg">API Endpoint</a></td></tr>
+    <tr><td>Content URL</td><td><a href="https://graphdb.dumontierlab.com/repositories/FoodHealthClaimsKG">SPARQL Endpoint</a></td></tr>
+    <tr><td>Version</td><td>1.0</td></tr>
+<tr>
+  <td>License</td>
+  <td><a href="https://opensource.org/licenses/MIT">MIT License</a></td>
+</tr>
+
+    <tr><td>Keywords</td><td>personalised nutrition, food health claim, knowledge graphs, FAIR data</td></tr>
+    <tr><td>Publication</td><td><a href="https://ceur-ws.org/Vol-3890/paper-24.pdf">Paper</a></td></tr>
+    <tr><td>Language</td><td>en</td></tr>
+    <tr><td>Number of Triples</td><td>7,842</td></tr>
+    <tr><td>Conforms To</td><td><a href="https://www.w3.org/TR/rdf11-concepts/">RDF 1.1 Concepts</a></td></tr>
+    <tr><td>Sample Queries</td><td><a href="http://grlc.io/api-git/MaastrichtU-IDS/food-claims-kg">grlc.io API</a></td></tr>
+    <tr><td>URI Regex Pattern</td><td>http://www.w3id.org/foodhkg/Instances/{id}</td></tr>
+<tr><td>Example Resource</td>
+  <td>
+    Title: Vitamin C Psychological Function Claim<br>
+    Description: Example claim stating that vitamin C contributes to normal psychological function.<br>
+    Media Type: text/turtle<br>
+    Status: stable<br>
+    Access URL: 
+    <a href="http://www.w3id.org/foodhkg/Instances/XUlPVZE8962HgzcThlA8FBKmhdiJjsVm3jnDU3B12KE">
+      Vitamin C Claim
+    </a>
+  </td>
+</tr>
+
+    <tr><td>Access Rights</td><td><a href="http://publications.europa.eu/resource/authority/access-right/OPEN">Open Access</a></td></tr>
+    <tr><td>Primary Source</td><td><a href="https://ec.europa.eu/food/food-feed-portal/screen/health-claims/eu-register">EU Register</a></td></tr>
+    <tr><td>URI Space</td><td><a href="http://www.w3id.org/foodhkg/Instances/">http://www.w3id.org/foodhkg/Instances/</a></td></tr>
+  </table>
+
+<h2>Linksets</h2>
+
+<h3>FoodKG → MEDDRA</h3>
+<table>
+  <tr><th>Property</th><th>Value</th></tr>
+  <tr><td>@id</td><td><a href="https://foodkg.org/linksets/meddra">http://www.w3id.org/foodhkg/linksets/meddra</a></td></tr>
+  <tr><td>Type</td><td>void:Linkset</td></tr>
+  <tr><td>Subjects Target</td><td><a href="http://www.w3id.org/foodhkg">http://www.w3id.org/foodhkg/</a></td></tr>
+  <tr><td>Target</td><td><a href="http://purl.bioontology.org/ontology/MEDDRA">MEDDRA</a></td></tr>
+  <tr><td>Triples</td><td>50</td></tr>
+</table>
+
+<h3>FoodKG → Gene Ontology</h3>
+<table>
+  <tr><th>Property</th><th>Value</th></tr>
+  <tr><td>@id</td><td><a href="http://www.w3id.org/foodhkg/linksets/go">http://www.w3id.org/foodhkg/linksets/go</a></td></tr>
+  <tr><td>Type</td><td>void:Linkset</td></tr>
+  <tr><td>Subjects Target</td><td><a href="http://www.w3id.org/foodhkg/">http://www.w3id.org/foodhkg/</a></td></tr>
+  <tr><td>Target</td><td><a href="http://www.informatics.jax.org/vocab/gene_ontology">Gene Ontology</a></td></tr>
+  <tr><td>Triples</td><td>100</td></tr>
+</table>
+
+<h3>FoodKG → SNOMED CT</h3>
+<table>
+  <tr><th>Property</th><th>Value</th></tr>
+  <tr><td>@id</td><td><a href="http://www.w3id.org/foodhkg/linksets/snomedct">http://www.w3id.org/foodhkg/linksets/snomedct</a></td></tr>
+  <tr><td>Type</td><td>void:Linkset</td></tr>
+  <tr><td>Subjects Target</td><td><a href="http://www.w3id.org/foodhkg/">http://www.w3id.org/foodhkg/</a></td></tr>
+  <tr><td>Target</td><td><a href="http://purl.bioontology.org/ontology/SNOMEDCT">SNOMED CT</a></td></tr>
+  <tr><td>Triples</td><td>200</td></tr>
+</table>
+
+<h3>FoodKG → FooDB</h3>
+<table>
+  <tr><th>Property</th><th>Value</th></tr>
+  <tr><td>@id</td><td><a href="http://www.w3id.org/foodhkg/linksets/foodb">http://www.w3id.org/foodhkg/linksets/foodb</a></td></tr>
+  <tr><td>Type</td><td>void:Linkset</td></tr>
+  <tr><td>Subjects Target</td><td><a href="http://www.w3id.org/foodhkg/">http://www.w3id.org/foodhkg/</a></td></tr>
+  <tr><td>Target</td><td><a href="https://foodb.ca/">FooDB</a></td></tr>
+  <tr><td>Triples</td><td>1000</td></tr>
+</table>
+
+
+</body>
+
+</html>

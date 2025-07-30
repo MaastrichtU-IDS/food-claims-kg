@@ -1,7 +1,0 @@
-pandas
-rdflib
-openpyxl
-requests
-argparse
-pyquery
-lxml

@@ -1,1 +1,0 @@
-https://graphdb.dumontierlab.com/repositories/FoodHealthClaimsKG
