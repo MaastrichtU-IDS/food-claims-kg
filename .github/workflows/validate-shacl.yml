@@ -2,9 +2,9 @@ name: SHACL Validation
 
 on:
   push:
-    branches: [gh-pages]
+    branches: gh-pages
   pull_request:
-    branches: [gh-pages]
+    branches: gh-pages
 
 jobs:
   validate:
