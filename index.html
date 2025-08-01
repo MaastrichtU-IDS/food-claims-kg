@@ -76,7 +76,15 @@
         "@value": "2023-07-01T00:00:00Z",
         "@type": "xsd:dateTime"
       },
-      "schema:maintainer": {
+ "void:vocabulary": [
+    { "@id": "http://www.w3id.org/foodhkg/" },
+    { "@id": "http://www.w3id.org/foodhkg/linksets/foodb" },
+    { "@id": "http://www.w3id.org/foodhkg/linksets/snomedct" },
+    { "@id": "http://www.w3id.org/foodhkg/linksets/go" },
+    { "@id": "https://foodkg.org/linksets/meddra" }
+  ],
+      
+      "schema:contactPoint": {
         "@type": "schema:Person",
         "schema:name": "Remzi Celebi",
         "schema:email": "remzi.celebi@maastrichtuniversity.nl"
@@ -89,19 +97,35 @@
     "contentUrl": "https://raw.githubusercontent.com/MaastrichtU-IDS/food-claims-kg/master/SIO_for_food_health_claim.png"
        }
       ],
-	  "schema:distribution":[ {
-        "@type": "schema:DataDownload",
-        "@id": "https://github.com/MaastrichtU-IDS/food-claims-kg/blob/master/output/food_health_kg.ttl"
-      },
-	  {
-        "@type": "schema:DataDownload",
-        "@id": "https://github.com/MaastrichtU-IDS/food-claims-kg/blob/master/output/catalog-v001.xml"
-      },
-	  {
-        "@type": "schema:DataDownload",
-        "@id": "https://github.com/MaastrichtU-IDS/food-claims-kg/blob/master/output/food-claims-kg.xlsx"
-      }
-	  ],
+"schema:distribution": [
+  {
+    "@type": "schema:DataDownload",
+    "schema:contentUrl": {
+      "@id": "https://github.com/MaastrichtU-IDS/food-claims-kg/blob/master/output/food_health_kg.ttl"
+    },
+    "schema:name": "Food Health KG (TTL)",
+    "schema:description": "RDF serialization of the Food Health Claims KG in Turtle format",
+    "schema:encodingFormat": "text/turtle"
+  },
+  {
+    "@type": "schema:DataDownload",
+    "schema:contentUrl": {
+      "@id": "https://github.com/MaastrichtU-IDS/food-claims-kg/blob/master/output/catalog-v001.xml"
+    },
+    "schema:name": "Catalog Metadata",
+    "schema:description": "Catalog metadata in XML",
+    "schema:encodingFormat": "application/xml"
+  },
+  {
+    "@type": "schema:DataDownload",
+    "schema:contentUrl": {
+      "@id": "https://github.com/MaastrichtU-IDS/food-claims-kg/blob/master/output/food-claims-kg.xlsx"
+    },
+    "schema:name": "Food Health KG Spreadsheet",
+    "schema:description": "Spreadsheet version of the Food Health Claims KG",
+    "schema:encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  }
+      ],
       "schema:mainEntityOfPage": {
         "@type": "schema:WebAPI",
         "@id": "http://grlc.io/api-git/MaastrichtU-IDS/food-claims-kg"
@@ -140,7 +164,7 @@
       "prov:hadPrimarySource": {
         "@id": "https://ec.europa.eu/food/food-feed-portal/screen/health-claims/eu-register"
       },
-      "void:uriSpace": { "@id": "http://www.w3id.org/foodhkg/Instances/" }
+      "void:uriSpace": "http://www.w3id.org/foodhkg/Instances/"
     },
 {
   "@id": "https://foodkg.org/linksets/meddra",
@@ -218,7 +242,7 @@
     </tr>
     <tr><td>Date Modified</td><td>2023-07-01T00:00:00Z</td></tr>
     <tr><td>Date Published</td><td>2023-07-01T00:00:00Z</td></tr>
-    <tr><td>Maintainer</td>
+    <tr><td>Contact Point</td>
       <td>
         Remzi Celebi<br>
         <a href="mailto:remzi.celebi@maastrichtuniversity.nl">remzi.celebi@maastrichtuniversity.nl</a>
@@ -232,17 +256,31 @@
   </td>
 </tr>
 <tr>
-  <td>Distribution</td>
-  <td>
-    <ul>
-      <li><a href="https://github.com/MaastrichtU-IDS/food-claims-kg/blob/master/output/food_health_kg.ttl">food_health_kg.ttl</a></li>
-      <li><a href="https://github.com/MaastrichtU-IDS/food-claims-kg/blob/master/output/catalog-v001.xml">catalog-v001.xml</a></li>
-      <li><a href="https://github.com/MaastrichtU-IDS/food-claims-kg/blob/master/output/food-claims-kg.xlsx">food-claims-kg.xlsx</a></li>
-    </ul>
-  </td>
-</tr>
-
-    <tr><td>Main Entity of Page (API)</td><td><a href="http://grlc.io/api-git/MaastrichtU-IDS/food-claims-kg">API Endpoint</a></td></tr>
+<td>Distribution</td>
+      <td>
+        <ul>
+          <li>
+            <strong>food_health_kg.ttl</strong><br>
+            <a href="https://github.com/MaastrichtU-IDS/food-claims-kg/blob/master/output/food_health_kg.ttl">Download</a><br>
+            Format: text/turtle<br>
+            Description: RDF serialization of the Food Health Claims KG in Turtle format
+          </li>
+          <li>
+            <strong>catalog-v001.xml</strong><br>
+            <a href="https://github.com/MaastrichtU-IDS/food-claims-kg/blob/master/output/catalog-v001.xml">Download</a><br>
+            Format: application/xml<br>
+            Description: Catalog metadata in XML
+          </li>
+          <li>
+            <strong>food-claims-kg.xlsx</strong><br>
+            <a href="https://github.com/MaastrichtU-IDS/food-claims-kg/blob/master/output/food-claims-kg.xlsx">Download</a><br>
+            Format: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet<br>
+            Description: Spreadsheet version of the Food Health Claims KG
+          </li>
+        </ul>
+      </td>
+    </tr>
+<tr><td>Main Entity of Page (API)</td><td><a href="http://grlc.io/api-git/MaastrichtU-IDS/food-claims-kg">API Endpoint</a></td></tr>
     <tr><td>Content URL</td><td><a href="https://graphdb.dumontierlab.com/repositories/FoodHealthClaimsKG">SPARQL Endpoint</a></td></tr>
     <tr><td>Version</td><td>1.0</td></tr>
 <tr>
@@ -272,7 +310,7 @@
 
     <tr><td>Access Rights</td><td><a href="http://publications.europa.eu/resource/authority/access-right/OPEN">Open Access</a></td></tr>
     <tr><td>Primary Source</td><td><a href="https://ec.europa.eu/food/food-feed-portal/screen/health-claims/eu-register">EU Register</a></td></tr>
-    <tr><td>URI Space</td><td><a href="http://www.w3id.org/foodhkg/Instances/">http://www.w3id.org/foodhkg/Instances/</a></td></tr>
+<tr><td>URI Space</td><td><a href="http://www.w3id.org/foodhkg/Instances/">http://www.w3id.org/foodhkg/Instances/</a></td></tr>
   </table>
 
 <h2>Linksets</h2>
