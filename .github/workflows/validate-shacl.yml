@@ -36,9 +36,9 @@ jobs:
           echo "Validation exit code: $VALID"
 
           if [ $VALID -eq 0 ]; then
-            echo '{"schema_validation":"passing"}' > status-badge.json
+            echo '{"schemaVersion":1,"label":"SHACL Validation","message":"passing","color":"green"}' > status-badge.json
           else
-            echo '{"schema_validation":"failing"}' > status-badge.json
+            echo '{"schemaVersion":1,"label":"SHACL Validation","message":"failing","color":"red"}' > status-badge.json
           fi
 
           cat validation.log
