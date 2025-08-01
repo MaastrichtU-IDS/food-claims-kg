@@ -1,6 +1,6 @@
 import re, json
 
-with open("index (6).html", "r") as f:
+with open("index.html", "r") as f:
     html = f.read()
 
 match = re.search(r'<script type="application/ld\+json">\s*(\{.*?\})\s*</script>', html, re.DOTALL)
