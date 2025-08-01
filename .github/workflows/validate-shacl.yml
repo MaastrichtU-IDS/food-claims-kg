@@ -43,6 +43,13 @@ jobs:
 
           cat validation.log
 
+      - name: Debug Validation Output
+        run: |
+          echo "=== Files in workspace ==="
+          ls -la
+          echo "=== Validation log ==="
+          cat validation.log || echo "validation.log not found"
+
       - name: Commit badge to gh-pages
         if: always()
         run: |
@@ -50,7 +57,11 @@ jobs:
           git config user.email "github-actions@github.com"
           git fetch origin gh-pages
           git checkout gh-pages
-          mv status-badge.json ./status-badge.json
-          git add status-badge.json
-          git commit -m "Update SHACL validation badge" || echo "No changes to commit"
-          git push origin gh-pages
+
+          if [ -f status-badge.json ]; then
+            mv status-badge.json ./status-badge.json
+            git add status-badge.json
+            git commit -m "Update SHACL validation badge" || echo "No changes to commit"
+            git push origin gh-pages
+          else
+            echo "status-badge.json not found. Skipping badge commit."
