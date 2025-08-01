@@ -59,7 +59,6 @@ jobs:
           git checkout gh-pages
 
           if [ -f status-badge.json ]; then
-            mv status-badge.json ./status-badge.json
             git add status-badge.json
             git commit -m "Update SHACL validation badge" || echo "No changes to commit"
             git push origin gh-pages
