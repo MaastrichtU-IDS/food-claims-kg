@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://maastrichtu-ids.github.io/food-claims-kg/sitemap.xml
