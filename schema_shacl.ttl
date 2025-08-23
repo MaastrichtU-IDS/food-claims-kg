@@ -30,7 +30,7 @@
             [ sh:datatype xsd:anyURI ]         # Accepts a URL (schema:URL)
                 ) ;
         sh:description "The Identifier for KG metadata. This is valuable for lexical search systems." ;
-        sh:example "https://www.wikidata.org"^^xsd:string ;
+        :example "https://www.wikidata.org"^^xsd:string ;
     ];
 
 
@@ -40,7 +40,7 @@
         sh:minCount 1 ;
         sh:datatype xsd:string;
         sh:description "To provide a name or formal title for the KG." ;
-        sh:example "Wikidata"^^xsd:string ;    # Example without a language tag
+        :example "Wikidata"^^xsd:string ;    # Example without a language tag
 ] ;
 
     # Alternative Title
@@ -48,7 +48,7 @@
         sh:path schema:alternateName ;
         sh:datatype xsd:string;
         sh:description "To specify a second, or alternative title to the primary title." ;
-        sh:example "Wikidata"^^xsd:string ;
+        :example "Wikidata"^^xsd:string ;
     ];
 
         # Acronym
@@ -64,7 +64,7 @@
         sh:minCount 1 ;
         sh:datatype xsd:string;
         sh:description """To provide a human readable description of the KG. Minimally, the description should be in English, and ideally, there would be descriptions available in other languages.""" ;
-        sh:example """Wikidata is a free and open knowledge base that can be read and edited by both humans and machines. 
+        :example """Wikidata is a free and open knowledge base that can be read and edited by both humans and machines. 
         Wikidata acts as central storage for the structured data of its Wikimedia sister projects including Wikipedia, Wikivoyage, Wiktionary, Wikisource, and others. Wikidata also provides support to many other sites and services beyond just Wikimedia projects! The content of Wikidata is available under a free license, exported using standard formats, and can be interlinked to other open data sets on the linked data web."""^^xsd:string ;            # Example with a language tag
 ] ;
 
@@ -74,7 +74,7 @@
         sh:minCount 1 ;
         sh:nodeKind sh:IRI;
         sh:description "page provides minimal information, link to access to data." ;
-        sh:example <https://www.wikidata.org>;
+        :example <https://www.wikidata.org>;
     ];
 
     # Other Pages
@@ -82,7 +82,7 @@
         sh:path schema:relatedLink ;
         sh:nodeKind sh:IRI ;
         sh:description "To provide additional relevant pages for the KG." ;
-        sh:example <https://www.wikidata.org/wiki/Wikidata:Introduction> ;
+        :example <https://www.wikidata.org/wiki/Wikidata:Introduction> ;
     ];
 
     # [0,∞]	Creator	
@@ -141,7 +141,7 @@
         sh:path schema:publisher ;
         sh:nodeKind sh:IRI ;
         sh:description "The publisher of the KG, typically as a ROR id of the insitution which the authors below to." ;
-        sh:example <https://wikimediafoundation.org>;
+        :example <https://wikimediafoundation.org>;
     ];
 
 
@@ -151,7 +151,7 @@
         sh:path schema:funding ;
         sh:nodeKind sh:IRI ;
         sh:description "The organisation(s) that funded the construction/maintenance of the KG." ;
-        sh:example <https://wikimediafoundation.org>;
+        :example <https://wikimediafoundation.org>;
     ];
 
     # [0,1]	Created Date
@@ -162,7 +162,7 @@
             [ sh:datatype xsd:dateTime ]  # Allows a date with time (e.g., 2020-01-01T15:30:00)
         ) ;
         sh:description "To provide the date or date-time when the KG was created." ;
-        sh:example "2020-01-01T15:30:00"^^xsd:dateTime ;  # Example of a datetime value
+        :example "2020-01-01T15:30:00"^^xsd:dateTime ;  # Example of a datetime value
     ] ;
 
 
@@ -174,7 +174,7 @@
             [ sh:datatype xsd:dateTime ]  # Allows a date with time (e.g., 2020-01-01T15:30:00)
         ) ;
         sh:description "The date when the KG is lastly modified." ;
-        sh:example "2024-11-25T15:30:00"^^xsd:dateTime ;
+        :example "2024-11-25T15:30:00"^^xsd:dateTime ;
     ];
             
      # Published Date
@@ -187,7 +187,7 @@
         sh:minCount 1 ;
         sh:maxCount 1 ;
         sh:description "The date when the KG is published." ;
-        sh:example "2012-10-29T15:30:00"^^xsd:dateTime ;
+        :example "2012-10-29T15:30:00"^^xsd:dateTime ;
     ];
 
     sh:property [
@@ -195,7 +195,7 @@
         sh:minCount 1 ;
         sh:nodeKind sh:IRI ;
         sh:description "To specify the vocabularies used in the knowledge." ;
-        sh:example <http://purl.org/dc/terms/>;
+        :example <http://purl.org/dc/terms/>;
     ];   
        
             
@@ -204,7 +204,7 @@
         sh:path schema:subjectOf ;
         sh:nodeKind sh:IRI ;
         sh:description "To provide a reference to a document, article or data paper describing the KG." ;
-        sh:example <https://dl.acm.org/doi/10.1145/2629489>;
+        :example <https://dl.acm.org/doi/10.1145/2629489>;
     ];   
             
     # Meta graph (picture)
@@ -229,7 +229,7 @@ sh:property [
         ]
     ) ;
     sh:description "To provide an illustration of the graph connectivity through its types and relations between instances. Can be either a direct image IRI or a structured ImageObject." ;
-    sh:example "https://www.researchgate.net/image_fig1_339985351"^^xsd:anyURI ;
+    :example "https://www.researchgate.net/image_fig1_339985351"^^xsd:anyURI ;
 ] ;
 
            
@@ -239,7 +239,7 @@ sh:property [
         sh:path void:triples;
         sh:datatype xsd:integer ;
         sh:description "To provide number of triples in the knowledge graph. See HCLS: https://www.w3.org/TR/hcls-dataset/#s6_6" ;
-        sh:example "8939"^^xsd:integer ;
+        :example "8939"^^xsd:integer ;
     ] ;
 
 
@@ -248,7 +248,7 @@ sh:property [
                 sh:path dct:conformsTo ;
                 sh:nodeKind sh:IRI ; 
                 sh:description "To specify the file against which to validate the KG metadata. Recommended that the IRI is a Profile (https://www.w3.org/TR/dx-prof/)." ;
-                sh:example <https://www.wikidata.org/wiki/Wikidata:WikiProject_Schemas#:~:text=Wikidata%20Schemas%20are%20formally%20described,ShEx)%2C%20using%20ShExC%20syntax.> ;
+                :example <https://www.wikidata.org/wiki/Wikidata:WikiProject_Schemas#:~:text=Wikidata%20Schemas%20are%20formally%20described,ShEx)%2C%20using%20ShExC%20syntax.> ;
             ] ;
 
 sh:property [
@@ -279,7 +279,7 @@ sh:property [
             sh:description "A short description of the distribution." ;
         ]
     ] ;
-    sh:example <https://www.wikidata.org/wiki/Wikidata:Database_download/nl> ;
+    :example <https://www.wikidata.org/wiki/Wikidata:Database_download/nl> ;
 ] ;
 
 
@@ -295,7 +295,7 @@ sh:property [
         ]
     ) ;
     sh:description "To provide a REST API for the KG, either as a URI or structured WebAPI description." ;
-    sh:example <https://www.wikidata.org/wiki/Q42722531> ;
+    :example <https://www.wikidata.org/wiki/Q42722531> ;
 ] ;
        
             
@@ -304,7 +304,7 @@ sh:property [
         sh:path schema:contentUrl;
         sh:nodeKind sh:IRI ;
         sh:description "To provide a SPARQL endpoint for the KG" ;
-        sh:example <https://query.wikidata.org/sparql> ;
+        :example <https://query.wikidata.org/sparql> ;
     ];
     #example queries 
           
@@ -328,7 +328,7 @@ sh:property [
         sh:minCount 1 ;
         sh:maxCount 1 ;
         sh:description "To provide the license that the KG is released with. The Software Ontology defines a set of standard licenses to could be chosen from (see http://www.ebi.ac.uk/swo/SWO_0000002)" ;
-        sh:example <https://www.wikidata.org/wiki/Q6938433> ;
+        :example <https://www.wikidata.org/wiki/Q6938433> ;
     ];
 
             
@@ -338,7 +338,7 @@ sh:property [
         sh:datatype xsd:string;
         sh:minCount 1 ;
         sh:description "To provide keywords for the KG." ;
-        sh:example "knowledge graph, wikidata, ontology"^^xsd:string ;
+        :example "knowledge graph, wikidata, ontology"^^xsd:string ;
     ];
 
 sh:property [
@@ -360,7 +360,7 @@ sh:property [
             [ sh:nodeKind sh:IRI ]              # For IRIs (e.g., URLs)
         ) ;
         sh:description "To provide references for the KG." ;
-        sh:example <https://www.wikidata.org/wiki/Wikidata:Introduction>;
+        :example <https://www.wikidata.org/wiki/Wikidata:Introduction>;
     ] ;
 
 
@@ -379,7 +379,7 @@ sh:property [
         sh:path mod:sampleQueries   ;
         sh:nodeKind sh:IRIOrLiteral;
         sh:description "To provide an exemplar query against the KG" ;
-        sh:example <https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples> ;
+        :example <https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples> ;
     ] ;  
 
 
@@ -388,7 +388,7 @@ sh:property [
         sh:path void:uriRegexPattern ;
         sh:datatype xsd:string;
         sh:description "To provide 0..* IRI Templates, following RFC 6570, that individuals are typically identified by" ;
-        sh:example "https://www.wikidata.org/wiki/{id}"^^xsd:string ;
+        :example "https://www.wikidata.org/wiki/{id}"^^xsd:string ;
     ];
 
 #example resource 
@@ -438,7 +438,7 @@ sh:property [
         sh:path prov:hadPrimarySource ;
         sh:nodeKind sh:IRI ;
         sh:description "To specify the origin or source of data for the KG." ;
-        sh:example <http://www.wikidata.org/entity/$1> ;
+        :example <http://www.wikidata.org/entity/$1> ;
     ];
 
 #uri space
@@ -446,7 +446,7 @@ sh:property [
     sh:path void:uriSpace ;
     sh:datatype xsd:string ;
     sh:description "This property states that all entity URIs in the dataset start with the given string." ;
-    sh:example "http://www.wikidata.org/entity/"^^xsd:string ;
+    :example "http://www.wikidata.org/entity/"^^xsd:string ;
 ] ;
 
 .
