@@ -1,0 +1,112 @@
+"FC_0","F1A","2","0:00:00","INFO - Evaluating metrics Unique IDs
+INFO - Checking if the URL is reachable, status code: 200
+INFO - Status code is OK, meaning the url is Unique.","https://fair-checker.france-bioinformatique.fr/data/68aa5ba4ab9a7c911481adb2","https://w3id.org/foodhkg"
+"FC_1","F1B","2","0:00:00","INFO - Evaluating metrics Persistent IDs
+INFO - Strong evaluation:
+INFO - Checking if there is either schema:identifier or dct:identifier property in metadata
+INFO - Found at least one of those property in metadata","https://fair-checker.france-bioinformatique.fr/data/68aa5ba4ab9a7c911481adbb","https://w3id.org/foodhkg"
+"FC_2","F2A","2","0:00:00","INFO - Evaluating metrics Structured metadata
+INFO - Checking that at least one of the access policy properties is found in metadata:
+
+                    dct:title
+                    dct:description
+                    dcat:accessURL
+                    dcat:downloadURL
+                    dcat:endpointDescription
+                    dcat:endpointURL
+                
+INFO - At least one of the discoverability properties was found in metadata !","https://fair-checker.france-bioinformatique.fr/data/68aa5ba4ab9a7c911481adbc","https://w3id.org/foodhkg"
+"FC_3","F2B","2","0:01:31","INFO - Evaluating metrics Shared vocabularies for metadata
+INFO - Strong evaluation:
+INFO - Checking if all classes used in RDF are known in OLS, LOV, or BioPortal
+INFO - All classes found in those ontology registries
+INFO - All properties found in those ontology registries
+INFO - All classes and properties are known in major ontology registries","https://fair-checker.france-bioinformatique.fr/data/68aa5c00ab9a7c911481adc6","https://w3id.org/foodhkg"
+"FC_4","A1.1","2","0:00:00","INFO - Evaluating metrics Open resolution protocol
+INFO - Checking if the URL uses HTTP protocol
+INFO - The resource use HTTP protocol","https://fair-checker.france-bioinformatique.fr/data/68aa5ba4ab9a7c911481adbd","https://w3id.org/foodhkg"
+"FC_5","A1.2","2","0:00:00","INFO - Evaluating metrics Authorisation procedure or access rights
+INFO - Checking that at least one of the access policy properties is found in metadata:
+
+            odrl:hasPolicy
+            dct:rights
+            dct:accessRights
+            dct:license
+            schema:license
+        
+INFO - At least one of the access policy properties was found in metadata !","https://fair-checker.france-bioinformatique.fr/data/68aa5ba4ab9a7c911481adbe","https://w3id.org/foodhkg"
+"FC_6","I1","2","0:00:00","INFO - Evaluating metrics Machine readable format
+INFO - Checking that at least one of the access policy properties is found in metadata:
+
+                    dct:title
+                    dct:description
+                    dcat:accessURL
+                    dcat:downloadURL
+                    dcat:endpointDescription
+                    dcat:endpointURL
+                
+INFO - At least one of the discoverability properties was found in metadata !","https://fair-checker.france-bioinformatique.fr/data/68aa5ba4ab9a7c911481adbf","https://w3id.org/foodhkg"
+"FC_7","I2","2","0:01:31","INFO - Evaluating metrics Use shared ontologies
+INFO - Strong evaluation:
+INFO - Checking if all classes used in RDF are known in OLS, LOV, or BioPortal
+INFO - All classes found in those ontology registries
+INFO - All properties found in those ontology registries
+INFO - All classes and properties are known in major ontology registries","https://fair-checker.france-bioinformatique.fr/data/68aa5c00ab9a7c911481adc8","https://w3id.org/foodhkg"
+"FC_8","I3","2","0:00:00","INFO - Evaluating metrics External links
+INFO - Checking that at least 3 different URL authorities are used in the URIs of RDF metadata
+INFO - At least 3 different domains were found in metadata (21)","https://fair-checker.france-bioinformatique.fr/data/68aa5ba4ab9a7c911481adc0","https://w3id.org/foodhkg"
+"FC_9","R1.1","2","0:00:00","INFO - Evaluating metrics Metadata includes license
+INFO - Checking that at least one of the following licence properties is found in metadata:
+
+        schema:license
+        dct:license
+        doap:license
+        dbpedia-owl:license
+        cc:license
+        xhv:license
+        sto:license
+        nie:license
+        
+INFO - At least one of the licence property was found in metadata !","https://fair-checker.france-bioinformatique.fr/data/68aa5ba4ab9a7c911481adc1","https://w3id.org/foodhkg"
+"FC_10","R1.2","2","0:00:00","INFO - Evaluating metrics Metadata includes provenance
+INFO - Checking that at least one of the following provenance properties is found in metadata:
+
+            prov:wasGeneratedBy 
+            prov:wasDerivedFrom 
+            prov:wasAttributedTo 
+            prov:used 
+            prov:wasInformedBy 
+            prov:wasAssociatedWith
+            prov:startedAtTime 
+            prov:endedAtTime
+            dct:hasVersion
+            dct:isVersionOf 
+            dct:creator 
+            dct:contributor 
+            dct:publisher
+            pav:hasVersion
+            pav:version 
+            pav:hasCurrentVersion 
+            pav:createdBy 
+            pav:authoredBy 
+            pav:retrievedFrom 
+            pav:importedFrom 
+            pav:createdWith 
+            pav:retrievedBy 
+            pav:importedBy 
+            pav:curatedBy 
+            pav:createdAt 
+            pav:previousVersion
+            schema:creator
+            schema:author
+            schema:publisher
+            schema:provider
+            schema:funder
+        
+INFO - At least one of the provenance property was found in metadata !","https://fair-checker.france-bioinformatique.fr/data/68aa5ba4ab9a7c911481adc2","https://w3id.org/foodhkg"
+"FC_11","R1.3","2","0:01:31","INFO - Evaluating metrics Community standards
+INFO - Strong evaluation:
+INFO - Checking if all classes used in RDF are known in OLS, LOV, or BioPortal
+INFO - All classes found in those ontology registries
+INFO - All properties found in those ontology registries
+INFO - All classes and properties are known in major ontology registries","https://fair-checker.france-bioinformatique.fr/data/68aa5c00ab9a7c911481adc4","https://w3id.org/foodhkg"
